@@ -143,19 +143,61 @@ async function fetchCatalog() {
 
         if (!optionData) continue;
 
-        // TODO: Parse skuOptions / otherOptions to extract storage, condition, purchase location
-        // For now we log and leave the mapping logic for the next iteration
+        // Parse skuOptions + otherOptions into structured rows
+        const skuOptions = optionData.skuOptions || [];
+        const otherOptions = optionData.otherOptions || [];
 
-        // Example placeholder row (we replace this once option parsing is done)
-        allDevices.push({
-          brand: brand.brandName,
-          model: modelNameEn,
-          storage: 'N/A',
-          purchased_from: 'Hong Kong/Macau',
-          trade_in_price: null,           // will be filled by price-cal
-          modelId: model.modelId,
-          categoryId: cat.categoryId
+        // Helper to find detail by name pattern
+        const findDetail = (list, patterns) => {
+          for (const item of list) {
+            const name = (item.detailName || item.name || '').toLowerCase();
+            if (patterns.some(p => name.includes(p))) return item;
+          }
+          return null;
+        };
+
+        // Extract storage variants (look for GB/TB in skuOptions)
+        const storageVariants = skuOptions.filter(o => {
+          const n = (o.detailName || '').toLowerCase();
+          return /\d+\s*(gb|tb)/.test(n);
         });
+
+        // Extract condition tiers (perfect/good/fair etc.)
+        const conditionVariants = otherOptions.filter(o => {
+          const n = (o.detailName || '').toLowerCase();
+          return /perfect|good|fair|excellent|mint/.test(n);
+        });
+
+        // Extract purchase location options
+        const locationVariants = otherOptions.filter(o => {
+          const n = (o.detailName || '').toLowerCase();
+          return /hong kong|macau|mainland|china|hk|mo/.test(n);
+        });
+
+        const storages = storageVariants.length ? storageVariants : [{ detailName: 'N/A', detailId: null }];
+        const conditions = conditionVariants.length ? conditionVariants : [{ detailName: 'Perfect', detailId: null }];
+        const locations = locationVariants.length ? locationVariants : [{ detailName: 'Hong Kong/Macau', detailId: null }];
+
+        // Generate one row per combination (limit combinations to avoid explosion)
+        for (const s of storages.slice(0, 6)) {
+          for (const c of conditions.slice(0, 3)) {
+            for (const l of locations.slice(0, 2)) {
+              allDevices.push({
+                brand: brand.brandName,
+                model: modelNameEn,
+                storage: s.detailName || 'N/A',
+                condition: c.detailName || 'Perfect',
+                purchased_from: l.detailName || 'Hong Kong/Macau',
+                trade_in_price: null,
+                modelId: model.modelId,
+                categoryId: cat.categoryId,
+                storageDetailId: s.detailId,
+                conditionDetailId: c.detailId,
+                locationDetailId: l.detailId
+              });
+            }
+          }
+        }
       }
     }
   }
