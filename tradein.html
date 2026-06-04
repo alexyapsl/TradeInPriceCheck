@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade-in Estimator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600&display=swap');
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .heading-font {
+            font-family: 'Poppins', system_ui, sans-serif;
+        }
+
+        .device-card {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .device-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        .price {
+            font-variant-numeric: tabular-nums;
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-200">
+    <div class="max-w-3xl mx-auto p-6">
+        <!-- Header -->
+        <div class="flex items-center gap-x-3 mb-8">
+            <div class="w-12 h-12 bg-emerald-500 rounded-2xl flex items-center justify-center">
+                <i class="fa-solid fa-sync text-white text-3xl"></i>
+            </div>
+            <div>
+                <h1 class="text-4xl font-semibold heading-font tracking-tight">Trade-in Estimator</h1>
+                <p class="text-zinc-400">Get instant trade-in value & upgrade options</p>
+            </div>
+        </div>
+
+        <!-- Old Device Form -->
+        <div class="bg-zinc-900 rounded-3xl p-8 border border-zinc-800">
+            <div class="font-semibold text-xl mb-6 flex items-center gap-x-2">
+                <i class="fa-solid fa-mobile-screen-button text-emerald-400"></i>
+                <span>Your Current Device</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Brand -->
+                <div>
+                    <label class="block text-sm font-medium text-zinc-400 mb-1.5">Brand</label>
+                    <select id="brand" class="w-full bg-zinc-950 border border-zinc-800 rounded-2xl px-4 py-3 text-lg focus:outline-none focus:border-emerald-400">
+                        <option value="">Select brand</option>
+                    </select>
+                </div>
+
+                <!-- Model -->
+                <div>
+                    <label class="block text-sm font-medium text-zinc-400 mb-1.5">Model</label>
+                    <select id="model" class="w-full bg-zinc-950 border border-zinc-800 rounded-2xl px-4 py-3 text-lg focus:outline-none focus:border-emerald-400" disabled>
+                        <option value="">Select model</option>
+                    </select>
+                </div>
+
+                <!-- Storage -->
+                <div>
+                    <label class="block text-sm font-medium text-zinc-400 mb-1.5">Storage</label>
+                    <select id="storage" class="w-full bg-zinc-950 border border-zinc-800 rounded-2xl px-4 py-3 text-lg focus:outline-none focus:border-emerald-400" disabled>
+                        <option value="">Select storage</option>
+                    </select>
+                </div>
+
+                <!-- Purchased From -->
+                <div>
+                    <label class="block text-sm font-medium text-zinc-400 mb-1.5">Purchased From</label>
+                    <select id="location" class="w-full bg-zinc-950 border border-zinc-800 rounded-2xl px-4 py-3 text-lg focus:outline-none focus:border-emerald-400" disabled>
+                        <option value="">Select location</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Trade-in Price Display -->
+            <div id="trade-in-section" class="hidden mt-8 pt-8 border-t border-zinc-800">
+                <div class="flex justify-between items-baseline">
+                    <div>
+                        <div class="text-zinc-400 text-sm">Your trade-in value</div>
+                        <div id="trade-in-price" class="text-6xl font-semibold text-emerald-400 price mt-1">$0</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="px-4 py-1.5 bg-zinc-950 text-emerald-400 text-sm rounded-2xl border border-emerald-900 flex items-center gap-x-2 w-fit ml-auto">
+                            <i class="fa-solid fa-check"></i>
+                            <span class="font-medium">Instant quote</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- New Phone Recommendations -->
+        <div id="recommendations-section" class="hidden mt-8">
+            <div class="font-semibold text-xl mb-4 px-1 flex items-center gap-x-2">
+                <i class="fa-solid fa-magic text-violet-400"></i>
+                <span>Recommended Upgrades</span>
+            </div>
+            <p class="text-sm text-zinc-500 px-1 mb-4">Based on your current device</p>
+            
+            <div id="recommendations" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Embedded device data (static snapshot from devices.json - smartphones only)
+        const devices = [
+            {"brand":"Samsung","model":"Galaxy S25 Ultra","storage":"256GB","purchased_from":"Hong Kong/Macau","trade_in_price":680},
+            {"brand":"Samsung","model":"Galaxy S25 Ultra","storage":"256GB","purchased_from":"Others","trade_in_price":620},
+            {"brand":"Samsung","model":"Galaxy S25 Ultra","storage":"512GB","purchased_from":"Hong Kong/Macau","trade_in_price":780},
+            {"brand":"Samsung","model":"Galaxy S25 Ultra","storage":"512GB","purchased_from":"Others","trade_in_price":720},
+            {"brand":"Samsung","model":"Galaxy S25 Ultra","storage":"1TB","purchased_from":"Hong Kong/Macau","trade_in_price":880},
+            {"brand":"Samsung","model":"Galaxy S25 Ultra","storage":"1TB","purchased_from":"Others","trade_in_price":820},
+            {"brand":"Samsung","model":"Galaxy S25+","storage":"256GB","purchased_from":"Hong Kong/Macau","trade_in_price":520},
+            {"brand":"Samsung","model":"Galaxy S25+","storage":"256GB","purchased_from":"Others","trade_in_price":470},
+            {"brand":"Samsung","model":"Galaxy S25+","storage":"512GB","purchased_from":"Hong Kong/Macau","trade_in_price":600},
+            {"brand":"Samsung","model":"Galaxy S25+","storage":"512GB","purchased_from":"Others","trade_in_price":550},
+            {"brand":"Samsung","model":"Galaxy S25+","storage":"1TB","purchased_from":"Hong Kong/Macau","trade_in_price":700},
+            {"brand":"Samsung","model":"Galaxy S25+","storage":"1TB","purchased_from":"Others","trade_in_price":650},
+            {"brand":"Samsung","model":"Galaxy S25","storage":"256GB","purchased_from":"Hong Kong/Macau","trade_in_price":380},
+            {"brand":"Samsung","model":"Galaxy S25","storage":"256GB","purchased_from":"Others","trade_in_price":340},
+            {"brand":"Samsung","model":"Galaxy S25","storage":"512GB","purchased_from":"Hong Kong/Macau","trade_in_price":460},
+            {"brand":"Samsung","model":"Galaxy S25","storage":"512GB","purchased_from":"Others","trade_in_price":420},
+            {"brand":"Samsung","model":"Galaxy S25","storage":"1TB","purchased_from":"Hong Kong/Macau","trade_in_price":560},
+            {"brand":"Samsung","model":"Galaxy S25","storage":"1TB","purchased_from":"Others","trade_in_price":510},
+            {"brand":"Samsung","model":"Galaxy Z Fold6","storage":"256GB","purchased_from":"Hong Kong/Macau","trade_in_price":620},
+            {"brand":"Samsung","model":"Galaxy Z Fold6","storage":"256GB","purchased_from":"Others","trade_in_price":560},
+            {"brand":"Samsung","model":"Galaxy Z Fold6","storage":"512GB","purchased_from":"Hong Kong/Macau","trade_in_price":720},
+            {"brand":"Samsung","model":"Galaxy Z Fold6","storage":"512GB","purchased_from":"Others","trade_in_price":660},
+            {"brand":"Samsung","model":"Galaxy Z Fold6","storage":"1TB","purchased_from":"Hong Kong/Macau","trade_in_price":830},
+            {"brand":"Samsung","model":"Galaxy Z Fold6","storage":"1TB","purchased_from":"Others","trade_in_price":770},
+            {"brand":"Samsung","model":"Galaxy Z Flip6","storage":"256GB","purchased_from":"Hong Kong/Macau","trade_in_price":420},
+            {"brand":"Samsung","model":"Galaxy Z Flip6","storage":"256GB","purchased_from":"Others","trade_in_price":370},
+            {"brand":"Samsung","model":"Galaxy Z Flip6","storage":"512GB","purchased_from":"Hong Kong/Macau","trade_in_price":500},
+            {"brand":"Samsung","model":"Galaxy Z Flip6","storage":"512GB","purchased_from":"Others","trade_in_price":450},
+            {"brand":"Samsung","model":"Galaxy Z Flip6","storage":"1TB","purchased_from":"Hong Kong/Macau","trade_in_price":590},
+            {"brand":"Samsung","model":"Galaxy Z Flip6","storage":"1TB","purchased_from":"Others","trade_in_price":540},
+            {"brand":"Apple","model":"iPhone 16 Pro Max","storage":"256GB","purchased_from":"Hong Kong/Macau","trade_in_price":780},
+            {"brand":"Apple","model":"iPhone 16 Pro Max","storage":"512GB","purchased_from":"Hong Kong/Macau","trade_in_price":920},
+            {"brand":"Apple","model":"iPhone 16 Pro Max","storage":"1TB","purchased_from":"Hong Kong/Macau","trade_in_price":1050},
+            {"brand":"Apple","model":"iPhone 16 Pro","storage":"256GB","purchased_from":"Hong Kong/Macau","trade_in_price":650},
+            {"brand":"Apple","model":"iPhone 16 Pro","storage":"512GB","purchased_from":"Hong Kong/Macau","trade_in_price":770},
+            {"brand":"Apple","model":"iPhone 16 Pro","storage":"1TB","purchased_from":"Hong Kong/Macau","trade_in_price":880},
+            {"brand":"Apple","model":"iPhone 16 Plus","storage":"256GB","purchased_from":"Hong Kong/Macau","trade_in_price":550},
+            {"brand":"Apple","model":"iPhone 16 Plus","storage":"512GB","purchased_from":"Hong Kong/Macau","trade_in_price":650},
+            {"brand":"Apple","model":"iPhone 16 Plus","storage":"1TB","purchased_from":"Hong Kong/Macau","trade_in_price":750},
+            {"brand":"Apple","model":"iPhone 16","storage":"256GB","purchased_from":"Hong Kong/Macau","trade_in_price":480},
+            {"brand":"Apple","model":"iPhone 16","storage":"512GB","purchased_from":"Hong Kong/Macau","trade_in_price":580},
+            {"brand":"Apple","model":"iPhone 16","storage":"1TB","purchased_from":"Hong Kong/Macau","trade_in_price":680},
+            {"brand":"Apple","model":"iPhone 16e","storage":"256GB","purchased_from":"Hong Kong/Macau","trade_in_price":320},
+            {"brand":"Apple","model":"iPhone 16e","storage":"512GB","purchased_from":"Hong Kong/Macau","trade_in_price":410},
+            {"brand":"Apple","model":"iPhone 16e","storage":"1TB","purchased_from":"Hong Kong/Macau","trade_in_price":500}
+        ];
+
+        // DOM Elements
+        const brandSelect = document.getElementById('brand');
+        const modelSelect = document.getElementById('model');
+        const storageSelect = document.getElementById('storage');
+        const locationSelect = document.getElementById('location');
+        const tradeInSection = document.getElementById('trade-in-section');
+        const tradeInPriceEl = document.getElementById('trade-in-price');
+        const recommendationsSection = document.getElementById('recommendations-section');
+        const recommendationsContainer = document.getElementById('recommendations');
+
+        // Populate Brand dropdown
+        function populateBrands() {
+            const brands = [...new Set(devices.map(d => d.brand))];
+            brands.forEach(brand => {
+                const opt = document.createElement('option');
+                opt.value = brand;
+                opt.textContent = brand;
+                brandSelect.appendChild(opt);
+            });
+        }
+
+        // Populate Model dropdown based on selected brand
+        function populateModels(brand) {
+            modelSelect.innerHTML = '<option value="">Select model</option>';
+            modelSelect.disabled = false;
+            
+            const models = [...new Set(devices.filter(d => d.brand === brand).map(d => d.model))];
+            models.forEach(model => {
+                const opt = document.createElement('option');
+                opt.value = model;
+                opt.textContent = model;
+                modelSelect.appendChild(opt);
+            });
+        }
+
+        // Populate Storage and Purchased from when model changes
+        function populateOptions() {
+            const brand = brandSelect.value;
+            const model = modelSelect.value;
+            
+            if (!brand || !model) return;
+
+            storageSelect.innerHTML = '<option value="">Select storage</option>';
+            storageSelect.disabled = false;
+            
+            const storages = [...new Set(devices
+                .filter(d => d.brand === brand && d.model === model)
+                .map(d => d.storage))];
+            
+            storages.forEach(storage => {
+                const opt = document.createElement('option');
+                opt.value = storage;
+                opt.textContent = storage;
+                storageSelect.appendChild(opt);
+            });
+
+            locationSelect.innerHTML = '<option value="">Select location</option>';
+            locationSelect.disabled = false;
+            
+            const locations = [...new Set(devices
+                .filter(d => d.brand === brand && d.model === model)
+                .map(d => d.purchased_from))];
+            
+            locations.forEach(loc => {
+                const opt = document.createElement('option');
+                opt.value = loc;
+                opt.textContent = loc;
+                locationSelect.appendChild(opt);
+            });
+        }
+
+        // Calculate and show trade-in price
+        function calculateTradeIn() {
+            const brand = brandSelect.value;
+            const model = modelSelect.value;
+            const storage = storageSelect.value;
+            const location = locationSelect.value;
+
+            if (!brand || !model || !storage || !location) {
+                tradeInSection.classList.add('hidden');
+                recommendationsSection.classList.add('hidden');
+                return;
+            }
+
+            const match = devices.find(d => 
+                d.brand === brand &&
+                d.model === model &&
+                d.storage === storage &&
+                d.purchased_from === location
+            );
+
+            if (match) {
+                tradeInPriceEl.textContent = '$' + match.trade_in_price;
+                tradeInSection.classList.remove('hidden');
+                showRecommendations(brand, match.trade_in_price);
+            } else {
+                tradeInSection.classList.add('hidden');
+                recommendationsSection.classList.add('hidden');
+            }
+        }
+
+        // Show 3 recommended new models
+        function showRecommendations(oldBrand, tradeInValue) {
+            recommendationsContainer.innerHTML = '';
+            
+            let newModels = [];
+            
+            if (oldBrand === 'Samsung') {
+                newModels = [
+                    { name: "Galaxy S26 Ultra", price: 1499 },
+                    { name: "Galaxy Z Fold7", price: 1899 },
+                    { name: "Galaxy S26+", price: 1199 }
+                ];
+            } else if (oldBrand === 'Apple') {
+                newModels = [
+                    { name: "iPhone 17 Pro Max", price: 1399 },
+                    { name: "iPhone 17 Pro", price: 1199 },
+                    { name: "iPhone 17", price: 999 }
+                ];
+            }
+
+            newModels.forEach(model => {
+                const youPay = model.price - tradeInValue;
+                
+                const card = document.createElement('div');
+                card.className = `device-card bg-zinc-900 border border-zinc-800 rounded-3xl p-6`;
+                card.innerHTML = `
+                    <div class="mb-4">
+                        <span class="px-3 py-1 text-xs rounded-2xl bg-zinc-800 text-zinc-400">Recommended</span>
+                    </div>
+                    
+                    <div>
+                        <div class="font-semibold text-xl">${model.name}</div>
+                        <div class="mt-5 flex items-baseline gap-x-1">
+                            <span class="text-4xl font-semibold price">$${model.price}</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-6 border-t border-zinc-800 space-y-2 text-sm">
+                        <div class="flex justify-between text-emerald-400">
+                            <span>Trade-in credit</span>
+                            <span class="font-medium">−$${tradeInValue}</span>
+                        </div>
+                        <div class="flex justify-between font-semibold pt-2 border-t border-zinc-800 text-xl">
+                            <span>You pay</span>
+                            <span class="price text-white">$${youPay}</span>
+                        </div>
+                    </div>
+                `;
+                
+                recommendationsContainer.appendChild(card);
+            });
+            
+            recommendationsSection.classList.remove('hidden');
+        }
+
+        // Event Listeners
+        brandSelect.addEventListener('change', () => {
+            const brand = brandSelect.value;
+            if (brand) {
+                populateModels(brand);
+                modelSelect.disabled = false;
+                storageSelect.disabled = true;
+                storageSelect.innerHTML = '<option value="">Select storage</option>';
+                locationSelect.disabled = true;
+                locationSelect.innerHTML = '<option value="">Select location</option>';
+                tradeInSection.classList.add('hidden');
+                recommendationsSection.classList.add('hidden');
+            }
+        });
+
+        modelSelect.addEventListener('change', () => {
+            populateOptions();
+            tradeInSection.classList.add('hidden');
+            recommendationsSection.classList.add('hidden');
+        });
+
+        storageSelect.addEventListener('change', calculateTradeIn);
+        locationSelect.addEventListener('change', calculateTradeIn);
+
+        // Initialize
+        function init() {
+            populateBrands();
+            
+            // Auto-select Samsung for demo
+            setTimeout(() => {
+                brandSelect.value = 'Samsung';
+                const event = new Event('change');
+                brandSelect.dispatchEvent(event);
+                
+                setTimeout(() => {
+                    modelSelect.value = 'Galaxy S25 Ultra';
+                    const modelEvent = new Event('change');
+                    modelSelect.dispatchEvent(modelEvent);
+                    
+                    setTimeout(() => {
+                        storageSelect.value = '1TB';
+                        locationSelect.value = 'Hong Kong/Macau';
+                        calculateTradeIn();
+                    }, 120);
+                }, 120);
+            }, 400);
+        }
+
+        init();
+    </script>
+</body>
+</html>
