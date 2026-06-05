@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trade-in Estimator • Samsung</title>
+    <title>Trade-in Estimator | Samsung</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -21,362 +21,414 @@
             font-family: 'Poppins', system_ui, sans-serif;
         }
 
+        .samsung-btn {
+            background: linear-gradient(90deg, #1428A0 0%, #0057FF 100%);
+            color: white;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        
+        .samsung-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgb(20 40 160 / 0.3), 0 4px 6px -4px rgb(20 40 160 / 0.3);
+        }
+
         .device-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .device-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
 
         .price {
             font-variant-numeric: tabular-nums;
         }
 
-        .samsung-btn {
-            background: #1428A0;
-            transition: all 0.2s ease;
-        }
-        
-        .samsung-btn:hover {
-            background: #0f1f7a;
-            transform: translateY(-1px);
-        }
-
-        .section-header {
-            letter-spacing: -0.025em;
+        .section-title {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #64748b;
         }
 
         .color-chip {
-            width: 26px;
-            height: 26px;
+            width: 28px;
+            height: 28px;
             border-radius: 9999px;
-            border: 3px solid #18181b;
+            border: 2px solid #334155;
             cursor: pointer;
-            transition: all 0.15s ease;
-            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15);
+            transition: all 0.1s ease;
         }
         
-        .color-chip:hover { 
-            transform: scale(1.15); 
-            border-color: #52525b;
-        }
-        
-        .color-chip.selected { 
-            border-color: #fff; 
+        .color-chip.active {
+            border-color: white;
             box-shadow: 0 0 0 2px #1428A0;
         }
 
-        .price-row {
-            font-feature-settings: "tnum";
+        .model-option {
+            transition: all 0.15s ease;
+        }
+        
+        .model-option:hover {
+            background-color: #1e2937;
+        }
+        
+        .model-option.selected {
+            background-color: #1428A0;
+            border-color: #3b82f6;
         }
 
-        .trade-in-badge {
-            background: linear-gradient(135deg, #052e16, #166534);
+        .nav-active {
+            color: white;
+            font-weight: 600;
         }
     </style>
 </head>
-<body class="bg-zinc-950 text-zinc-200">
-    <!-- Top nav (Samsung style) -->
-    <div class="border-b border-zinc-800 bg-zinc-950">
-        <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-x-3">
-                <div class="w-9 h-9 bg-white rounded-xl flex items-center justify-center">
-                    <span class="text-[#1428A0] font-bold text-xl tracking-tighter">S</span>
-                </div>
-                <div>
-                    <span class="font-semibold text-xl tracking-tight">Samsung</span>
-                    <span class="text-xs text-zinc-500 ml-1.5 font-mono">TRADE-IN</span>
-                </div>
-            </div>
-            <div class="text-xs text-zinc-500 flex items-center gap-x-1.5">
-                <i class="fa-solid fa-globe fa-fw"></i>
-                <span>Hong Kong / Macau</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="max-w-4xl mx-auto px-6 pt-10 pb-16">
-        
-        <!-- Hero -->
-        <div class="mb-10">
-            <div class="inline-flex items-center gap-x-2 px-4 py-1.5 rounded-2xl bg-zinc-900 border border-zinc-800 text-xs font-medium mb-4">
-                <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                INSTANT TRADE-IN QUOTE
-            </div>
-            <h1 class="text-5xl font-semibold heading-font tracking-tighter">Upgrade with confidence.<br>Get more for your old device.</h1>
-            <p class="mt-4 text-xl text-zinc-400 max-w-md">Instant valuation for your current phone. See how much you save on the latest Samsung flagships.</p>
-        </div>
-
-        <!-- Trade-in Form -->
-        <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8 md:p-10 shadow-2xl">
-            <div class="flex items-center gap-x-3 mb-8">
-                <div class="w-8 h-8 rounded-2xl bg-emerald-600 flex items-center justify-center flex-shrink-0">
-                    <i class="fa-solid fa-mobile-screen-button text-white"></i>
-                </div>
-                <div>
-                    <div class="font-semibold text-2xl tracking-tight">Tell us about your current device</div>
-                    <div class="text-sm text-zinc-400">We assume Hong Kong / Macau purchased unit in good condition</div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <!-- Brand -->
-                <div>
-                    <label class="block text-xs font-medium text-zinc-400 mb-2 px-1">BRAND</label>
-                    <select id="brand" class="w-full bg-zinc-950 border border-zinc-700 rounded-2xl px-5 py-4 text-lg focus:outline-none focus:border-[#1428A0]">
-                        <option value="">Select brand</option>
-                    </select>
-                </div>
-
-                <!-- Model -->
-                <div>
-                    <label class="block text-xs font-medium text-zinc-400 mb-2 px-1">MODEL</label>
-                    <select id="model" class="w-full bg-zinc-950 border border-zinc-700 rounded-2xl px-5 py-4 text-lg focus:outline-none focus:border-[#1428A0]" disabled>
-                        <option value="">Select model</option>
-                    </select>
-                </div>
-
-                <!-- Storage -->
-                <div>
-                    <label class="block text-xs font-medium text-zinc-400 mb-2 px-1">STORAGE</label>
-                    <select id="storage" class="w-full bg-zinc-950 border border-zinc-700 rounded-2xl px-5 py-4 text-lg focus:outline-none focus:border-[#1428A0]" disabled>
-                        <option value="">Select storage</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Trade-in Result -->
-            <div id="trade-in-section" class="hidden mt-8 border-t border-zinc-800 pt-8">
-                <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-y-4">
-                    <div>
-                        <div class="uppercase text-xs tracking-widest text-zinc-400 font-medium">Your trade-in value</div>
-                        <div id="trade-in-price" class="text-7xl font-semibold tabular-nums text-emerald-400 mt-1">—</div>
+<body class="bg-[#0f1117] text-white">
+    <!-- Samsung-style Nav -->
+    <nav class="bg-[#0a0c11] border-b border-slate-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-x-3">
+                    <div class="w-9 h-9 bg-[#1428A0] rounded-xl flex items-center justify-center">
+                        <i class="fa-brands fa-samsung text-white text-2xl"></i>
                     </div>
                     <div>
-                        <div class="trade-in-badge text-emerald-400 text-sm px-5 py-2 rounded-3xl border border-emerald-800 inline-flex items-center gap-x-2">
-                            <i class="fa-solid fa-check-double"></i>
-                            <span class="font-semibold">HK/Macau • Instant quote</span>
+                        <span class="font-bold tracking-tighter text-2xl">Samsung</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-x-8 text-sm">
+                    <a href="#" class="hover:text-white text-slate-300">Smartphones</a>
+                    <a href="#" class="hover:text-white text-slate-300">Trade-in</a>
+                    <a href="#" class="hover:text-white text-slate-300">Support</a>
+                    <a href="#" class="hover:text-white text-slate-300">Shop</a>
+                </div>
+                <div>
+                    <button onclick="window.location.reload()" class="px-4 py-2 text-sm border border-slate-700 hover:bg-slate-800 rounded-2xl transition-colors">
+                        <i class="fa-solid fa-redo mr-2"></i>
+                        <span>Reset</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-5xl mx-auto px-6 py-10">
+        <!-- Header -->
+        <div class="mb-10">
+            <div class="inline-flex items-center gap-x-2 px-3 py-1 rounded-2xl bg-slate-800/60 text-xs tracking-[1px] mb-3">
+                <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                <span class="font-medium text-emerald-400">INSTANT QUOTE</span>
+            </div>
+            <h1 class="text-5xl font-semibold tracking-tighter heading-font">Trade in your device.<br>Get credit toward a new Galaxy.</h1>
+            <p class="text-xl text-slate-400 mt-3 max-w-md">Instant value for your current phone. Upgrade today.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- LEFT: Old Device Selection -->
+            <div class="lg:col-span-7">
+                <div class="bg-[#16181f] rounded-3xl p-8 border border-slate-800">
+                    <div class="flex items-center gap-x-3 mb-6">
+                        <div class="w-9 h-9 bg-slate-700 rounded-2xl flex items-center justify-center">
+                            <i class="fa-solid fa-mobile-alt text-lg"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-xl">Your current device</div>
+                            <div class="text-sm text-slate-500">Hong Kong / Macau only</div>
+                        </div>
+                    </div>
+
+                    <!-- Selects -->
+                    <div class="space-y-6">
+                        <!-- Brand -->
+                        <div>
+                            <label class="section-title mb-2 block">Brand</label>
+                            <select id="brand" onchange="updateModels()" class="w-full bg-[#0f1117] border border-slate-700 focus:border-[#1428A0] rounded-2xl px-5 py-4 text-lg outline-none appearance-none">
+                                <option value="">Select brand</option>
+                            </select>
+                        </div>
+
+                        <!-- Model -->
+                        <div>
+                            <label class="section-title mb-2 block">Model</label>
+                            <select id="model" onchange="updateStorage()" disabled class="w-full bg-[#0f1117] border border-slate-700 focus:border-[#1428A0] rounded-2xl px-5 py-4 text-lg outline-none disabled:opacity-50">
+                                <option value="">Select model</option>
+                            </select>
+                        </div>
+
+                        <!-- Storage -->
+                        <div>
+                            <label class="section-title mb-2 block">Storage</label>
+                            <select id="storage" onchange="updateTradeInPrice()" disabled class="w-full bg-[#0f1117] border border-slate-700 focus:border-[#1428A0] rounded-2xl px-5 py-4 text-lg outline-none disabled:opacity-50">
+                                <option value="">Select storage</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Trade-in Result -->
+                    <div id="trade-in-result" class="hidden mt-8 pt-8 border-t border-slate-800">
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <div class="text-sm text-slate-500 mb-1">Your trade-in value</div>
+                                <div id="trade-in-value" class="text-6xl font-semibold tabular-nums tracking-tighter text-emerald-400">$0</div>
+                            </div>
+                            <div>
+                                <span class="inline-block px-5 py-1.5 text-sm rounded-2xl font-medium bg-emerald-900/60 text-emerald-400 border border-emerald-800">
+                                    <i class="fa-solid fa-check mr-1.5"></i> Instant
+                                </span>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-xs text-slate-500">
+                            HK / Macau model • Fair condition assumed
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Recommended Upgrades -->
-        <div id="recommendations-section" class="hidden mt-14">
-            <div class="flex items-end justify-between mb-6 px-1">
-                <div>
-                    <div class="uppercase text-xs tracking-[1.5px] text-zinc-400 font-medium">Recommended next flagship</div>
-                    <div class="font-semibold text-3xl heading-font tracking-tight">Ready to upgrade?</div>
+            <!-- RIGHT: Recommended Upgrades -->
+            <div class="lg:col-span-5">
+                <div class="sticky top-6">
+                    <div class="mb-4 px-1">
+                        <div class="section-title mb-2">Recommended upgrades</div>
+                        <div class="text-sm text-slate-400">Popular choices with your trade-in</div>
+                    </div>
+
+                    <!-- Recommended Products -->
+                    <div id="recommended-products" class="space-y-3">
+                        <!-- Populated by JS -->
+                    </div>
                 </div>
-                <div class="text-xs text-zinc-400 hidden md:block">Prices shown in HKD</div>
             </div>
-
-            <div id="recommendations" class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                <!-- JS populated -->
-            </div>
-        </div>
-
-        <div class="mt-16 text-center">
-            <div class="text-xs text-zinc-400">All trade-in values are estimates based on current market data. Final value subject to device inspection.</div>
+            
         </div>
     </div>
+
+    <footer class="max-w-5xl mx-auto px-6 pb-8 pt-6 text-center text-xs text-slate-600">
+        All prices in HKD. Trade-in values for Hong Kong / Macau models only.
+    </footer>
 
     <script>
-        const devices = [
-            {"brand":"Samsung","model":"Galaxy Z Flip6","storage":"512GB","trade_in_price":3800},
-            {"brand":"Samsung","model":"Galaxy Z Flip5","storage":"512GB","trade_in_price":1800},
-            {"brand":"Samsung","model":"Galaxy Z Flip4","storage":"512GB","trade_in_price":1100},
-            {"brand":"Samsung","model":"Galaxy Z Fold6","storage":"1TB","trade_in_price":7700},
-            {"brand":"Samsung","model":"Galaxy Z Fold5","storage":"1TB","trade_in_price":3300},
-            {"brand":"Samsung","model":"Galaxy Z Fold4","storage":"1TB","trade_in_price":2100},
-            {"brand":"Samsung","model":"Galaxy S23","storage":"512GB","trade_in_price":1900},
-            {"brand":"Samsung","model":"Galaxy S24","storage":"512GB","trade_in_price":2800},
-            {"brand":"Samsung","model":"Galaxy S23+","storage":"512GB","trade_in_price":2100},
-            {"brand":"Samsung","model":"Galaxy S24+","storage":"512GB","trade_in_price":3300},
-            {"brand":"Samsung","model":"Galaxy S23 Ultra","storage":"1TB","trade_in_price":4400},
-            {"brand":"Samsung","model":"Galaxy S24 Ultra","storage":"1TB","trade_in_price":5900},
-            {"brand":"Apple","model":"iPhone 16 Pro","storage":"1TB","trade_in_price":6600},
-            {"brand":"Apple","model":"iPhone 15 Pro","storage":"1TB","trade_in_price":4400},
-            {"brand":"Apple","model":"iPhone 14 Pro","storage":"1TB","trade_in_price":3000},
-            {"brand":"Apple","model":"iPhone 14 Pro Max","storage":"1TB","trade_in_price":3700},
-            {"brand":"Apple","model":"iPhone 15 Pro Max","storage":"1TB","trade_in_price":5300},
-            {"brand":"Apple","model":"iPhone 16 Pro Max","storage":"1TB","trade_in_price":7300}
+        // Data from devices.json (HK/Macau only)
+        let devices = [];
+
+        // Recommended products with prices (HKD)
+        const recommendedProducts = [
+            {
+                name: "Galaxy S26 Ultra",
+                storage: "512GB",
+                originalPrice: 10999,
+                colorOptions: ["#1a1c21", "#c6c8cb", "#1428a0", "#c9a66b"],
+                colorNames: ["Titanium Black", "Titanium Silver", "Titanium Blue", "Titanium Gold"],
+                url: "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/",
+                image: "https://images.samsung.com/is/image/samsung/p6pim/hk/galaxy-s26-ultra/gallery/hk-galaxy-s26-ultra-5g-sm-g998bzkaxme-531000664"
+            },
+            {
+                name: "Galaxy Z Flip7",
+                storage: "256GB",
+                originalPrice: 7999,
+                colorOptions: ["#1a1c21", "#c6c8cb", "#f4b183", "#1428a0"],
+                colorNames: ["Black", "Silver", "Peach", "Blue"],
+                url: "https://www.samsung.com/hk/smartphones/galaxy-z-flip7/buy/",
+                image: "https://images.samsung.com/is/image/samsung/p6pim/hk/galaxy-zflip7/gallery/hk-galaxy-zflip7-5g-sm-f961bzkaxme-531000665"
+            },
+            {
+                name: "Galaxy S26",
+                storage: "256GB",
+                originalPrice: 6999,
+                colorOptions: ["#1a1c21", "#c6c8cb", "#1428a0", "#f4b183"],
+                colorNames: ["Black", "Silver", "Blue", "Peach"],
+                url: "https://www.samsung.com/hk/smartphones/galaxy-s25/buy/",
+                image: "https://images.samsung.com/is/image/samsung/p6pim/hk/galaxy-s25/gallery/hk-galaxy-s25-5g-sm-s931bzkaxme-531000660"
+            }
         ];
 
-        const recommendedPhones = {
-            "Galaxy S26 Ultra": {
-                link: "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/",
-                storages: [
-                    { size: "256GB", original: 10198, promo: 9998, sku: "SM-S9480ZKITGY" },
-                    { size: "512GB", original: 11798, promo: 10998, sku: "SM-S9480ZSOTGY" },
-                    { size: "1TB", original: 14198, promo: 13798, sku: "SM-S9480ZSPTGY" }
-                ],
-                colors: ["#1a1a1a", "#c0c0c0", "#2a2a6e", "#8b0000"]
-            },
-            "Galaxy Z Fold7": {
-                link: "https://www.samsung.com/hk/smartphones/galaxy-z-fold7/buy/",
-                storages: [
-                    { size: "256GB", original: 15198, promo: 15198, sku: "SM-F9660DBDTGY" },
-                    { size: "512GB", original: 16798, promo: 15998, sku: "SM-F9660DBGTGY" }
-                ],
-                colors: ["#1a1a1a", "#c0c0c0", "#2a2a6e"]
-            },
-            "Galaxy Z Flip7": {
-                link: "https://www.samsung.com/hk/smartphones/galaxy-z-flip7/buy/",
-                storages: [
-                    { size: "256GB", original: 8698, promo: 7998, sku: "SM-F7660DBATGY" }
-                ],
-                colors: ["#1a1a1a", "#c0c0c0", "#8b0000"]
+        async function loadDevices() {
+            try {
+                const res = await fetch('devices.json');
+                const data = await res.json();
+                
+                // Filter HK/Macau only
+                devices = data.filter(d => d.purchased_from === 'Hong Kong/Macau');
+                
+                populateBrands();
+            } catch (e) {
+                console.error('Failed to load devices.json', e);
+                // Fallback data (subset)
+                devices = [
+                    {"brand":"Samsung","model":"Galaxy S25 Ultra","storage":"256GB","purchased_from":"Hong Kong/Macau","trade_in_price":680},
+                    {"brand":"Samsung","model":"Galaxy S25 Ultra","storage":"512GB","purchased_from":"Hong Kong/Macau","trade_in_price":780},
+                    {"brand":"Samsung","model":"Galaxy S25 Ultra","storage":"1TB","purchased_from":"Hong Kong/Macau","trade_in_price":880},
+                    {"brand":"Samsung","model":"Galaxy S25+","storage":"256GB","purchased_from":"Hong Kong/Macau","trade_in_price":520},
+                    {"brand":"Samsung","model":"Galaxy S25+","storage":"512GB","purchased_from":"Hong Kong/Macau","trade_in_price":600},
+                    {"brand":"Samsung","model":"Galaxy S25","storage":"128GB","purchased_from":"Hong Kong/Macau","trade_in_price":380},
+                    {"brand":"Samsung","model":"Galaxy S25","storage":"256GB","purchased_from":"Hong Kong/Macau","trade_in_price":420},
+                    {"brand":"Samsung","model":"Galaxy Z Flip6","storage":"256GB","purchased_from":"Hong Kong/Macau","trade_in_price":450},
+                    {"brand":"Samsung","model":"Galaxy Z Fold6","storage":"256GB","purchased_from":"Hong Kong/Macau","trade_in_price":880}
+                ];
+                populateBrands();
             }
-        };
-
-        const brandSelect = document.getElementById('brand');
-        const modelSelect = document.getElementById('model');
-        const storageSelect = document.getElementById('storage');
-        const tradeInSection = document.getElementById('trade-in-section');
-        const tradeInPriceEl = document.getElementById('trade-in-price');
-        const recSection = document.getElementById('recommendations-section');
-        const recContainer = document.getElementById('recommendations');
-
-        let currentTradeIn = 0;
+        }
 
         function populateBrands() {
-            const brands = [...new Set(devices.map(d => d.brand))];
-            brands.forEach(b => {
-                const o = document.createElement('option');
-                o.value = b; o.textContent = b;
-                brandSelect.appendChild(o);
+            const brandSelect = document.getElementById('brand');
+            const brands = [...new Set(devices.map(d => d.brand))].sort();
+            
+            brands.forEach(brand => {
+                const opt = document.createElement('option');
+                opt.value = brand;
+                opt.textContent = brand;
+                brandSelect.appendChild(opt);
             });
         }
 
-        function populateModels(brand) {
+        function updateModels() {
+            const brand = document.getElementById('brand').value;
+            const modelSelect = document.getElementById('model');
+            const storageSelect = document.getElementById('storage');
+            const resultSection = document.getElementById('trade-in-result');
+            
             modelSelect.innerHTML = '<option value="">Select model</option>';
-            modelSelect.disabled = false;
-            devices.filter(d => d.brand === brand)
-                .map(d => d.model)
-                .filter((v,i,a) => a.indexOf(v) === i)
-                .forEach(m => {
-                    const o = document.createElement('option');
-                    o.value = m; o.textContent = m;
-                    modelSelect.appendChild(o);
-                });
-        }
-
-        function populateStorage() {
-            const b = brandSelect.value, m = modelSelect.value;
-            if (!b || !m) return;
             storageSelect.innerHTML = '<option value="">Select storage</option>';
-            storageSelect.disabled = false;
-            devices.filter(d => d.brand === b && d.model === m)
-                .map(d => d.storage)
-                .filter((v,i,a) => a.indexOf(v) === i)
-                .forEach(s => {
-                    const o = document.createElement('option');
-                    o.value = s; o.textContent = s;
-                    storageSelect.appendChild(o);
-                });
-        }
-
-        function calculateTradeIn() {
-            const b = brandSelect.value, m = modelSelect.value, s = storageSelect.value;
-            if (!b || !m || !s) {
-                tradeInSection.classList.add('hidden');
-                recSection.classList.add('hidden');
+            storageSelect.disabled = true;
+            resultSection.classList.add('hidden');
+            
+            if (!brand) {
+                modelSelect.disabled = true;
                 return;
             }
-            const match = devices.find(d => d.brand===b && d.model===m && d.storage===s);
-            if (match) {
-                currentTradeIn = match.trade_in_price;
-                tradeInPriceEl.innerHTML = `<span class="font-light">$</span>${currentTradeIn}`;
-                tradeInSection.classList.remove('hidden');
-                showRecommendations();
+            
+            const models = [...new Set(devices.filter(d => d.brand === brand).map(d => d.model))].sort();
+            
+            models.forEach(model => {
+                const opt = document.createElement('option');
+                opt.value = model;
+                opt.textContent = model;
+                modelSelect.appendChild(opt);
+            });
+            
+            modelSelect.disabled = false;
+        }
+
+        function updateStorage() {
+            const brand = document.getElementById('brand').value;
+            const model = document.getElementById('model').value;
+            const storageSelect = document.getElementById('storage');
+            const resultSection = document.getElementById('trade-in-result');
+            
+            storageSelect.innerHTML = '<option value="">Select storage</option>';
+            resultSection.classList.add('hidden');
+            
+            if (!model) {
+                storageSelect.disabled = true;
+                return;
+            }
+            
+            const storages = devices.filter(d => d.brand === brand && d.model === model);
+            const uniqueStorages = [...new Set(storages.map(d => d.storage))];
+            
+            uniqueStorages.forEach(storage => {
+                const opt = document.createElement('option');
+                opt.value = storage;
+                opt.textContent = storage;
+                storageSelect.appendChild(opt);
+            });
+            
+            storageSelect.disabled = false;
+        }
+
+        function updateTradeInPrice() {
+            const brand = document.getElementById('brand').value;
+            const model = document.getElementById('model').value;
+            const storage = document.getElementById('storage').value;
+            const resultSection = document.getElementById('trade-in-result');
+            const priceEl = document.getElementById('trade-in-value');
+            
+            if (!storage) {
+                resultSection.classList.add('hidden');
+                return;
+            }
+            
+            const device = devices.find(d => 
+                d.brand === brand && 
+                d.model === model && 
+                d.storage === storage
+            );
+            
+            if (device) {
+                priceEl.textContent = '$' + device.trade_in_price.toLocaleString();
+                resultSection.classList.remove('hidden');
+                
+                // Update recommended products
+                renderRecommendedProducts(device.trade_in_price);
             }
         }
 
-        function showRecommendations() {
-            recContainer.innerHTML = '';
-            Object.keys(recommendedPhones).forEach(name => {
-                const data = recommendedPhones[name];
+        function renderRecommendedProducts(tradeInValue) {
+            const container = document.getElementById('recommended-products');
+            container.innerHTML = '';
+            
+            recommendedProducts.forEach(product => {
+                const youPay = Math.max(0, product.originalPrice - tradeInValue);
+                const savings = product.originalPrice - youPay;
+                
                 const card = document.createElement('div');
-                card.className = `device-card bg-zinc-900 border border-zinc-700 rounded-3xl overflow-hidden flex flex-col`;
-
-                let colorHTML = '';
-                data.colors.forEach(c => {
-                    colorHTML += `<div class="color-chip" style="background:${c}"></div>`;
+                card.className = `bg-[#16181f] border border-slate-800 rounded-3xl p-6 device-card`;
+                
+                let colorsHTML = '';
+                product.colorOptions.forEach((color, i) => {
+                    colorsHTML += `<div onclick="event.target.classList.toggle('active')" class="color-chip" style="background-color: ${color}"></div>`;
                 });
-
-                let storageHTML = '';
-                data.storages.forEach(item => {
-                    const final = item.promo - currentTradeIn;
-                    storageHTML += `
-                        <div class="text-sm py-4 border-b border-zinc-800 last:border-b-0 px-1">
-                            <div class="flex items-baseline justify-between mb-0.5">
-                                <span class="font-medium">${item.size}</span>
-                                <span class="text-xs tabular-nums text-zinc-400 line-through">HK$${item.original}</span>
-                            </div>
-                            <div class="text-xs text-emerald-400 mb-1">Trade-in credit −HK$${currentTradeIn}</div>
-                            <div class="flex justify-between items-baseline">
-                                <span class="text-[10px] text-zinc-400">Out-of-pocket</span>
-                                <span class="font-bold tabular-nums text-3xl text-white">HK$${final}</span>
-                            </div>
-                        </div>
-                    `;
-                });
-
+                
                 card.innerHTML = `
-                    <div class="px-6 pt-6 pb-4">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <span class="px-3 py-1 text-xs bg-[#1428A0] text-white rounded-2xl font-medium">RECOMMENDED</span>
-                                <div class="font-bold text-2xl tracking-tighter mt-4">${name}</div>
-                            </div>
-                            <a href="${data.link}" target="_blank" class="text-[#1428A0] hover:text-white text-sm font-medium">Shop →</a>
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <div class="font-semibold text-xl">${product.name}</div>
+                            <div class="text-sm text-slate-500">${product.storage}</div>
                         </div>
-
-                        <div class="flex gap-2 mt-6">
-                            ${colorHTML}
+                        <div class="text-right">
+                            <div class="text-xs text-slate-500">Original</div>
+                            <div class="font-semibold tabular-nums">$${product.originalPrice.toLocaleString()}</div>
                         </div>
                     </div>
-
-                    <div class="mt-auto bg-black/40 px-6 pt-1 pb-5">
-                        ${storageHTML}
+                    
+                    <div class="flex flex-wrap gap-2 mb-5">
+                        ${colorsHTML}
                     </div>
+                    
+                    <div class="pt-4 border-t border-slate-800 space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-emerald-400">Trade-in credit</span>
+                            <span class="font-medium text-emerald-400">−$${tradeInValue.toLocaleString()}</span>
+                        </div>
+                        
+                        <div class="pt-3 border-t border-slate-800 flex justify-between items-baseline">
+                            <span class="font-medium">You pay after trade-in</span>
+                            <span class="text-3xl font-semibold tabular-nums text-white">$${youPay.toLocaleString()}</span>
+                        </div>
+                        
+                        <div class="text-xs text-emerald-400 mt-1">
+                            You save $${savings.toLocaleString()}
+                        </div>
+                    </div>
+                    
+                    <a href="${product.url}" target="_blank" 
+                       class="mt-5 block text-center w-full py-3.5 rounded-2xl samsung-btn text-sm font-medium">
+                        Buy now on Samsung.com
+                    </a>
                 `;
-                recContainer.appendChild(card);
+                
+                container.appendChild(card);
             });
-            recSection.classList.remove('hidden');
         }
 
-        // Event wiring
-        brandSelect.onchange = () => {
-            populateModels(brandSelect.value);
-            modelSelect.disabled = false;
-            storageSelect.disabled = true; storageSelect.innerHTML = '<option value="">Select storage</option>';
-            tradeInSection.classList.add('hidden'); recSection.classList.add('hidden');
-        };
-        modelSelect.onchange = () => { populateStorage(); tradeInSection.classList.add('hidden'); recSection.classList.add('hidden'); };
-        storageSelect.onchange = calculateTradeIn;
-
-        function init() {
-            populateBrands();
-            // Demo prefill
-            setTimeout(() => {
-                brandSelect.value = 'Samsung';
-                brandSelect.dispatchEvent(new Event('change'));
-                setTimeout(() => {
-                    modelSelect.value = 'Galaxy S24 Ultra';
-                    modelSelect.dispatchEvent(new Event('change'));
-                    setTimeout(() => {
-                        storageSelect.value = '1TB';
-                        storageSelect.dispatchEvent(new Event('change'));
-                    }, 80);
-                }, 80);
-            }, 300);
+        // Initialize
+        window.onload = function() {
+            loadDevices();
         }
-        init();
     </script>
 </body>
 </html>
