@@ -19,18 +19,21 @@
         }
 
         .samsung-blue {
-            color: #1428A0;
+            color: #007AFF;
         }
 
         .samsung-btn {
-            background-color: #1428A0;
+            background-color: #007AFF;
             color: white;
             font-weight: 600;
             transition: all 0.2s ease;
+            border-radius: 9999px;
+            padding-top: 14px;
+            padding-bottom: 14px;
         }
         
         .samsung-btn:hover {
-            background-color: #0f1f80;
+            background-color: #0066CC;
             transform: translateY(-1px);
         }
 
@@ -63,8 +66,8 @@
         }
         
         .color-chip.active {
-            border-color: #1428A0;
-            box-shadow: 0 0 0 2px #dbeafe;
+            border-color: #007AFF;
+            box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.3);
         }
 
         select {
@@ -73,9 +76,9 @@
         }
         
         select:focus {
-            border-color: #1428A0;
+            border-color: #007AFF;
             outline: none;
-            box-shadow: 0 0 0 3px rgba(20, 40, 160, 0.1);
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15);
         }
 
         .nav-link {
@@ -84,7 +87,7 @@
         }
         
         .nav-link:hover {
-            color: #1428A0;
+            color: #007AFF;
         }
     </style>
 </head>
@@ -94,14 +97,7 @@
         <div class="max-w-6xl mx-auto px-6">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center gap-x-3">
-                    <img src="samsung-logo.png" alt="Samsung" class="h-8" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                    <div class="hidden items-center justify-center w-8 h-8 bg-[#1428A0] text-white text-sm font-bold rounded">S</div>
-                    <span class="font-semibold tracking-tighter text-2xl text-[#1428A0]">Samsung</span>
-                </div>
-                <div class="flex items-center gap-x-8 text-sm">
-                    <a href="#" class="nav-link">Smartphones</a>
-                    <a href="#" class="nav-link">Trade-in</a>
-                    <a href="#" class="nav-link">Support</a>
+                    <span class="font-semibold tracking-tighter text-2xl text-[#007AFF]">Samsung</span>
                 </div>
                 <div>
                     <button onclick="window.location.reload()" 
@@ -117,9 +113,9 @@
     <div class="max-w-5xl mx-auto px-6 py-10">
         <!-- Header -->
         <div class="mb-10 text-center">
-            <div class="inline-flex items-center gap-x-2 px-4 py-1 rounded-full bg-blue-50 text-xs tracking-[1px] mb-4 text-[#1428A0]">
-                <div class="w-2 h-2 bg-[#1428A0] rounded-full animate-pulse"></div>
-                <span class="font-medium">INSTANT TRADE-IN QUOTE</span>
+            <div class="inline-flex items-center gap-x-2 px-4 py-1 rounded-full bg-blue-50 text-xs tracking-[1px] mb-4 text-[#007AFF]">
+                <div class="w-2 h-2 bg-[#007AFF] rounded-full animate-pulse"></div>
+                <span class="font-medium">TRADE-IN QUOTE</span>
             </div>
             <h1 class="text-5xl font-semibold tracking-tighter heading-font text-gray-900">Trade in your device.<br>Get credit toward a new Galaxy.</h1>
             <p class="text-xl text-gray-600 mt-3 max-w-md mx-auto">Instant value for your current phone. Upgrade today.</p>
@@ -132,7 +128,7 @@
                 <div class="bg-white rounded-3xl p-8 border border-gray-200 shadow-sm">
                     <div class="flex items-center gap-x-3 mb-6">
                         <div class="w-9 h-9 bg-blue-100 rounded-2xl flex items-center justify-center">
-                            <i class="fa-solid fa-mobile-alt text-[#1428A0] text-lg"></i>
+                            <i class="fa-solid fa-mobile-alt text-[#007AFF] text-lg"></i>
                         </div>
                         <div>
                             <div class="font-semibold text-xl text-gray-900">Your current device</div>
@@ -145,7 +141,7 @@
                         <div>
                             <label class="section-title mb-2 block">Brand</label>
                             <select id="brand" onchange="updateModels()" 
-                                    class="w-full border border-gray-300 focus:border-[#1428A0] rounded-2xl px-5 py-4 text-lg appearance-none">
+                                    class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none">
                                 <option value="">Select brand</option>
                             </select>
                         </div>
@@ -154,7 +150,7 @@
                         <div>
                             <label class="section-title mb-2 block">Model</label>
                             <select id="model" onchange="updateStorage()" disabled 
-                                    class="w-full border border-gray-300 focus:border-[#1428A0] rounded-2xl px-5 py-4 text-lg appearance-none disabled:bg-gray-50">
+                                    class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none disabled:bg-gray-50">
                                 <option value="">Select model</option>
                             </select>
                         </div>
@@ -163,7 +159,7 @@
                         <div>
                             <label class="section-title mb-2 block">Storage</label>
                             <select id="storage" onchange="updateTradeInPrice()" disabled 
-                                    class="w-full border border-gray-300 focus:border-[#1428A0] rounded-2xl px-5 py-4 text-lg appearance-none disabled:bg-gray-50">
+                                    class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none disabled:bg-gray-50">
                                 <option value="">Select storage</option>
                             </select>
                         </div>
@@ -173,7 +169,7 @@
                     <div id="trade-in-result" class="hidden mt-8 pt-8 border-t border-gray-200">
                         <div>
                             <div class="text-sm text-gray-500 mb-1">Your trade-in value</div>
-                            <div id="trade-in-value" class="text-6xl font-semibold tabular-nums tracking-tighter text-[#1428A0]">$0</div>
+                            <div id="trade-in-value" class="text-6xl font-semibold tabular-nums tracking-tighter text-[#007AFF]">$0</div>
                         </div>
                         <div class="mt-3 text-xs text-gray-500">
                             HK / Macau model • Fair condition assumed
@@ -211,21 +207,21 @@
                 name: "Galaxy S26 Ultra",
                 storage: "512GB",
                 originalPrice: 10999,
-                colorOptions: ["#1a1c21", "#c6c8cb", "#1428a0", "#c9a66b"],
+                colorOptions: ["#1a1c21", "#c6c8cb", "#007AFF", "#c9a66b"],
                 url: "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/"
             },
             {
                 name: "Galaxy Z Flip7",
                 storage: "256GB",
                 originalPrice: 7999,
-                colorOptions: ["#1a1c21", "#c6c8cb", "#f4b183", "#1428a0"],
+                colorOptions: ["#1a1c21", "#c6c8cb", "#f4b183", "#007AFF"],
                 url: "https://www.samsung.com/hk/smartphones/galaxy-z-flip7/buy/"
             },
             {
                 name: "Galaxy S26",
                 storage: "256GB",
                 originalPrice: 6999,
-                colorOptions: ["#1a1c21", "#c6c8cb", "#1428a0", "#f4b183"],
+                colorOptions: ["#1a1c21", "#c6c8cb", "#007AFF", "#f4b183"],
                 url: "https://www.samsung.com/hk/smartphones/galaxy-s25/buy/"
             }
         ];
@@ -382,7 +378,7 @@
                     
                     <a href="${product.url}" target="_blank" 
                        class="mt-5 block text-center w-full py-3.5 rounded-2xl samsung-btn text-sm font-medium">
-                        Buy now on Samsung.com
+                        Buy now
                     </a>
                 `;
                 
