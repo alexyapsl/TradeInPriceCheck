@@ -9,45 +9,44 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600&display=swap');
         
-        :root {
-            --samsung-blue: #1428A0;
-        }
-        
         body {
             font-family: 'Inter', system_ui, sans-serif;
+            background-color: #f8f9fa;
         }
         
         .heading-font {
             font-family: 'Poppins', system_ui, sans-serif;
         }
 
+        .samsung-blue {
+            color: #1428A0;
+        }
+
         .samsung-btn {
-            background: linear-gradient(90deg, #1428A0 0%, #0057FF 100%);
+            background-color: #1428A0;
             color: white;
             font-weight: 600;
             transition: all 0.2s ease;
         }
         
         .samsung-btn:hover {
+            background-color: #0f1f80;
             transform: translateY(-1px);
-            box-shadow: 0 10px 15px -3px rgb(20 40 160 / 0.3), 0 4px 6px -4px rgb(20 40 160 / 0.3);
         }
 
         .device-card {
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+            border: 1px solid #e5e7eb;
         }
         
         .device-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-        }
-
-        .price {
-            font-variant-numeric: tabular-nums;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
 
         .section-title {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             letter-spacing: 0.5px;
             text-transform: uppercase;
@@ -55,59 +54,58 @@
         }
 
         .color-chip {
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             border-radius: 9999px;
-            border: 2px solid #334155;
+            border: 2px solid #e5e7eb;
             cursor: pointer;
             transition: all 0.1s ease;
         }
         
         .color-chip.active {
-            border-color: white;
-            box-shadow: 0 0 0 2px #1428A0;
+            border-color: #1428A0;
+            box-shadow: 0 0 0 2px #dbeafe;
         }
 
-        .model-option {
-            transition: all 0.15s ease;
+        select {
+            background-color: white;
+            border: 1px solid #d1d5db;
         }
         
-        .model-option:hover {
-            background-color: #1e2937;
-        }
-        
-        .model-option.selected {
-            background-color: #1428A0;
-            border-color: #3b82f6;
+        select:focus {
+            border-color: #1428A0;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(20, 40, 160, 0.1);
         }
 
-        .nav-active {
-            color: white;
-            font-weight: 600;
+        .nav-link {
+            color: #374151;
+            transition: color 0.1s ease;
+        }
+        
+        .nav-link:hover {
+            color: #1428A0;
         }
     </style>
 </head>
-<body class="bg-[#0f1117] text-white">
-    <!-- Samsung-style Nav -->
-    <nav class="bg-[#0a0c11] border-b border-slate-800 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6">
+<body>
+    <!-- Samsung-style Light Nav -->
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center gap-x-3">
-                    <div class="w-9 h-9 bg-[#1428A0] rounded-xl flex items-center justify-center">
-                        <i class="fa-brands fa-samsung text-white text-2xl"></i>
-                    </div>
-                    <div>
-                        <span class="font-bold tracking-tighter text-2xl">Samsung</span>
-                    </div>
+                    <img src="samsung-logo.png" alt="Samsung" class="h-8" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                    <div class="hidden items-center justify-center w-8 h-8 bg-[#1428A0] text-white text-sm font-bold rounded">S</div>
+                    <span class="font-semibold tracking-tighter text-2xl text-[#1428A0]">Samsung</span>
                 </div>
                 <div class="flex items-center gap-x-8 text-sm">
-                    <a href="#" class="hover:text-white text-slate-300">Smartphones</a>
-                    <a href="#" class="hover:text-white text-slate-300">Trade-in</a>
-                    <a href="#" class="hover:text-white text-slate-300">Support</a>
-                    <a href="#" class="hover:text-white text-slate-300">Shop</a>
+                    <a href="#" class="nav-link">Smartphones</a>
+                    <a href="#" class="nav-link">Trade-in</a>
+                    <a href="#" class="nav-link">Support</a>
                 </div>
                 <div>
-                    <button onclick="window.location.reload()" class="px-4 py-2 text-sm border border-slate-700 hover:bg-slate-800 rounded-2xl transition-colors">
+                    <button onclick="window.location.reload()" 
+                            class="px-4 py-2 text-sm border border-gray-300 hover:bg-gray-50 rounded-2xl transition-colors text-gray-700">
                         <i class="fa-solid fa-redo mr-2"></i>
                         <span>Reset</span>
                     </button>
@@ -118,36 +116,36 @@
 
     <div class="max-w-5xl mx-auto px-6 py-10">
         <!-- Header -->
-        <div class="mb-10">
-            <div class="inline-flex items-center gap-x-2 px-3 py-1 rounded-2xl bg-slate-800/60 text-xs tracking-[1px] mb-3">
-                <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                <span class="font-medium text-emerald-400">INSTANT QUOTE</span>
+        <div class="mb-10 text-center">
+            <div class="inline-flex items-center gap-x-2 px-4 py-1 rounded-full bg-blue-50 text-xs tracking-[1px] mb-4 text-[#1428A0]">
+                <div class="w-2 h-2 bg-[#1428A0] rounded-full animate-pulse"></div>
+                <span class="font-medium">INSTANT TRADE-IN QUOTE</span>
             </div>
-            <h1 class="text-5xl font-semibold tracking-tighter heading-font">Trade in your device.<br>Get credit toward a new Galaxy.</h1>
-            <p class="text-xl text-slate-400 mt-3 max-w-md">Instant value for your current phone. Upgrade today.</p>
+            <h1 class="text-5xl font-semibold tracking-tighter heading-font text-gray-900">Trade in your device.<br>Get credit toward a new Galaxy.</h1>
+            <p class="text-xl text-gray-600 mt-3 max-w-md mx-auto">Instant value for your current phone. Upgrade today.</p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
             <!-- LEFT: Old Device Selection -->
             <div class="lg:col-span-7">
-                <div class="bg-[#16181f] rounded-3xl p-8 border border-slate-800">
+                <div class="bg-white rounded-3xl p-8 border border-gray-200 shadow-sm">
                     <div class="flex items-center gap-x-3 mb-6">
-                        <div class="w-9 h-9 bg-slate-700 rounded-2xl flex items-center justify-center">
-                            <i class="fa-solid fa-mobile-alt text-lg"></i>
+                        <div class="w-9 h-9 bg-blue-100 rounded-2xl flex items-center justify-center">
+                            <i class="fa-solid fa-mobile-alt text-[#1428A0] text-lg"></i>
                         </div>
                         <div>
-                            <div class="font-semibold text-xl">Your current device</div>
-                            <div class="text-sm text-slate-500">Hong Kong / Macau only</div>
+                            <div class="font-semibold text-xl text-gray-900">Your current device</div>
+                            <div class="text-sm text-gray-500">Hong Kong / Macau only</div>
                         </div>
                     </div>
 
-                    <!-- Selects -->
                     <div class="space-y-6">
                         <!-- Brand -->
                         <div>
                             <label class="section-title mb-2 block">Brand</label>
-                            <select id="brand" onchange="updateModels()" class="w-full bg-[#0f1117] border border-slate-700 focus:border-[#1428A0] rounded-2xl px-5 py-4 text-lg outline-none appearance-none">
+                            <select id="brand" onchange="updateModels()" 
+                                    class="w-full border border-gray-300 focus:border-[#1428A0] rounded-2xl px-5 py-4 text-lg appearance-none">
                                 <option value="">Select brand</option>
                             </select>
                         </div>
@@ -155,7 +153,8 @@
                         <!-- Model -->
                         <div>
                             <label class="section-title mb-2 block">Model</label>
-                            <select id="model" onchange="updateStorage()" disabled class="w-full bg-[#0f1117] border border-slate-700 focus:border-[#1428A0] rounded-2xl px-5 py-4 text-lg outline-none disabled:opacity-50">
+                            <select id="model" onchange="updateStorage()" disabled 
+                                    class="w-full border border-gray-300 focus:border-[#1428A0] rounded-2xl px-5 py-4 text-lg appearance-none disabled:bg-gray-50">
                                 <option value="">Select model</option>
                             </select>
                         </div>
@@ -163,26 +162,27 @@
                         <!-- Storage -->
                         <div>
                             <label class="section-title mb-2 block">Storage</label>
-                            <select id="storage" onchange="updateTradeInPrice()" disabled class="w-full bg-[#0f1117] border border-slate-700 focus:border-[#1428A0] rounded-2xl px-5 py-4 text-lg outline-none disabled:opacity-50">
+                            <select id="storage" onchange="updateTradeInPrice()" disabled 
+                                    class="w-full border border-gray-300 focus:border-[#1428A0] rounded-2xl px-5 py-4 text-lg appearance-none disabled:bg-gray-50">
                                 <option value="">Select storage</option>
                             </select>
                         </div>
                     </div>
 
                     <!-- Trade-in Result -->
-                    <div id="trade-in-result" class="hidden mt-8 pt-8 border-t border-slate-800">
+                    <div id="trade-in-result" class="hidden mt-8 pt-8 border-t border-gray-200">
                         <div class="flex justify-between items-end">
                             <div>
-                                <div class="text-sm text-slate-500 mb-1">Your trade-in value</div>
-                                <div id="trade-in-value" class="text-6xl font-semibold tabular-nums tracking-tighter text-emerald-400">$0</div>
+                                <div class="text-sm text-gray-500 mb-1">Your trade-in value</div>
+                                <div id="trade-in-value" class="text-6xl font-semibold tabular-nums tracking-tighter text-[#1428A0]">$0</div>
                             </div>
                             <div>
-                                <span class="inline-block px-5 py-1.5 text-sm rounded-2xl font-medium bg-emerald-900/60 text-emerald-400 border border-emerald-800">
+                                <span class="inline-block px-5 py-1.5 text-sm rounded-2xl font-medium bg-green-100 text-green-700 border border-green-200">
                                     <i class="fa-solid fa-check mr-1.5"></i> Instant
                                 </span>
                             </div>
                         </div>
-                        <div class="mt-3 text-xs text-slate-500">
+                        <div class="mt-3 text-xs text-gray-500">
                             HK / Macau model • Fair condition assumed
                         </div>
                     </div>
@@ -194,10 +194,9 @@
                 <div class="sticky top-6">
                     <div class="mb-4 px-1">
                         <div class="section-title mb-2">Recommended upgrades</div>
-                        <div class="text-sm text-slate-400">Popular choices with your trade-in</div>
+                        <div class="text-sm text-gray-500">Popular choices with your trade-in</div>
                     </div>
 
-                    <!-- Recommended Products -->
                     <div id="recommended-products" class="space-y-3">
                         <!-- Populated by JS -->
                     </div>
@@ -207,69 +206,44 @@
         </div>
     </div>
 
-    <footer class="max-w-5xl mx-auto px-6 pb-8 pt-6 text-center text-xs text-slate-600">
+    <footer class="max-w-5xl mx-auto px-6 pb-8 pt-6 text-center text-xs text-gray-400">
         All prices in HKD. Trade-in values for Hong Kong / Macau models only.
     </footer>
 
     <script>
-        // Data from devices.json (HK/Macau only)
         let devices = [];
 
-        // Recommended products with prices (HKD)
         const recommendedProducts = [
             {
                 name: "Galaxy S26 Ultra",
                 storage: "512GB",
                 originalPrice: 10999,
                 colorOptions: ["#1a1c21", "#c6c8cb", "#1428a0", "#c9a66b"],
-                colorNames: ["Titanium Black", "Titanium Silver", "Titanium Blue", "Titanium Gold"],
-                url: "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/",
-                image: "https://images.samsung.com/is/image/samsung/p6pim/hk/galaxy-s26-ultra/gallery/hk-galaxy-s26-ultra-5g-sm-g998bzkaxme-531000664"
+                url: "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/"
             },
             {
                 name: "Galaxy Z Flip7",
                 storage: "256GB",
                 originalPrice: 7999,
                 colorOptions: ["#1a1c21", "#c6c8cb", "#f4b183", "#1428a0"],
-                colorNames: ["Black", "Silver", "Peach", "Blue"],
-                url: "https://www.samsung.com/hk/smartphones/galaxy-z-flip7/buy/",
-                image: "https://images.samsung.com/is/image/samsung/p6pim/hk/galaxy-zflip7/gallery/hk-galaxy-zflip7-5g-sm-f961bzkaxme-531000665"
+                url: "https://www.samsung.com/hk/smartphones/galaxy-z-flip7/buy/"
             },
             {
                 name: "Galaxy S26",
                 storage: "256GB",
                 originalPrice: 6999,
                 colorOptions: ["#1a1c21", "#c6c8cb", "#1428a0", "#f4b183"],
-                colorNames: ["Black", "Silver", "Blue", "Peach"],
-                url: "https://www.samsung.com/hk/smartphones/galaxy-s25/buy/",
-                image: "https://images.samsung.com/is/image/samsung/p6pim/hk/galaxy-s25/gallery/hk-galaxy-s25-5g-sm-s931bzkaxme-531000660"
+                url: "https://www.samsung.com/hk/smartphones/galaxy-s25/buy/"
             }
         ];
 
         async function loadDevices() {
             try {
                 const res = await fetch('devices.json');
-                const data = await res.json();
-                
-                // Filter HK/Macau only
-                devices = data.filter(d => d.purchased_from === 'Hong Kong/Macau');
-                
+                devices = await res.json();
                 populateBrands();
             } catch (e) {
-                console.error('Failed to load devices.json', e);
-                // Fallback data (subset)
-                devices = [
-                    {"brand":"Samsung","model":"Galaxy S25 Ultra","storage":"256GB","purchased_from":"Hong Kong/Macau","trade_in_price":680},
-                    {"brand":"Samsung","model":"Galaxy S25 Ultra","storage":"512GB","purchased_from":"Hong Kong/Macau","trade_in_price":780},
-                    {"brand":"Samsung","model":"Galaxy S25 Ultra","storage":"1TB","purchased_from":"Hong Kong/Macau","trade_in_price":880},
-                    {"brand":"Samsung","model":"Galaxy S25+","storage":"256GB","purchased_from":"Hong Kong/Macau","trade_in_price":520},
-                    {"brand":"Samsung","model":"Galaxy S25+","storage":"512GB","purchased_from":"Hong Kong/Macau","trade_in_price":600},
-                    {"brand":"Samsung","model":"Galaxy S25","storage":"128GB","purchased_from":"Hong Kong/Macau","trade_in_price":380},
-                    {"brand":"Samsung","model":"Galaxy S25","storage":"256GB","purchased_from":"Hong Kong/Macau","trade_in_price":420},
-                    {"brand":"Samsung","model":"Galaxy Z Flip6","storage":"256GB","purchased_from":"Hong Kong/Macau","trade_in_price":450},
-                    {"brand":"Samsung","model":"Galaxy Z Fold6","storage":"256GB","purchased_from":"Hong Kong/Macau","trade_in_price":880}
-                ];
-                populateBrands();
+                console.error('Failed to load devices.json');
             }
         }
 
@@ -361,8 +335,6 @@
             if (device) {
                 priceEl.textContent = '$' + device.trade_in_price.toLocaleString();
                 resultSection.classList.remove('hidden');
-                
-                // Update recommended products
                 renderRecommendedProducts(device.trade_in_price);
             }
         }
@@ -375,23 +347,23 @@
                 const youPay = Math.max(0, product.originalPrice - tradeInValue);
                 const savings = product.originalPrice - youPay;
                 
-                const card = document.createElement('div');
-                card.className = `bg-[#16181f] border border-slate-800 rounded-3xl p-6 device-card`;
-                
                 let colorsHTML = '';
                 product.colorOptions.forEach((color, i) => {
-                    colorsHTML += `<div onclick="event.target.classList.toggle('active')" class="color-chip" style="background-color: ${color}"></div>`;
+                    colorsHTML += `<div class="color-chip" style="background-color: ${color}" onclick="this.classList.toggle('active')"></div>`;
                 });
+                
+                const card = document.createElement('div');
+                card.className = `bg-white border border-gray-200 rounded-3xl p-6 device-card`;
                 
                 card.innerHTML = `
                     <div class="flex justify-between items-start mb-4">
                         <div>
-                            <div class="font-semibold text-xl">${product.name}</div>
-                            <div class="text-sm text-slate-500">${product.storage}</div>
+                            <div class="font-semibold text-xl text-gray-900">${product.name}</div>
+                            <div class="text-sm text-gray-500">${product.storage}</div>
                         </div>
                         <div class="text-right">
-                            <div class="text-xs text-slate-500">Original</div>
-                            <div class="font-semibold tabular-nums">$${product.originalPrice.toLocaleString()}</div>
+                            <div class="text-xs text-gray-500">Original</div>
+                            <div class="font-semibold tabular-nums text-gray-900">$${product.originalPrice.toLocaleString()}</div>
                         </div>
                     </div>
                     
@@ -399,18 +371,18 @@
                         ${colorsHTML}
                     </div>
                     
-                    <div class="pt-4 border-t border-slate-800 space-y-2 text-sm">
+                    <div class="pt-4 border-t border-gray-200 space-y-2 text-sm">
                         <div class="flex justify-between">
-                            <span class="text-emerald-400">Trade-in credit</span>
-                            <span class="font-medium text-emerald-400">−$${tradeInValue.toLocaleString()}</span>
+                            <span class="text-emerald-600">Trade-in credit</span>
+                            <span class="font-medium text-emerald-600">−$${tradeInValue.toLocaleString()}</span>
                         </div>
                         
-                        <div class="pt-3 border-t border-slate-800 flex justify-between items-baseline">
-                            <span class="font-medium">You pay after trade-in</span>
-                            <span class="text-3xl font-semibold tabular-nums text-white">$${youPay.toLocaleString()}</span>
+                        <div class="pt-3 border-t border-gray-200 flex justify-between items-baseline">
+                            <span class="font-medium text-gray-900">You pay after trade-in</span>
+                            <span class="text-3xl font-semibold tabular-nums text-gray-900">$${youPay.toLocaleString()}</span>
                         </div>
                         
-                        <div class="text-xs text-emerald-400 mt-1">
+                        <div class="text-xs text-emerald-600 mt-1">
                             You save $${savings.toLocaleString()}
                         </div>
                     </div>
@@ -425,7 +397,6 @@
             });
         }
 
-        // Initialize
         window.onload = function() {
             loadDevices();
         }
