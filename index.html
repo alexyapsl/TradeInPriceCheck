@@ -202,42 +202,19 @@
     <script>
         let devices = [];
 
-        const recommendedProducts = [
-            {
-                name: "Galaxy S26 Ultra",
-                storageOptions: [
-                    { storage: "256GB", price: 9999 },
-                    { storage: "512GB", price: 10999 },
-                    { storage: "1TB", price: 12999 }
-                ],
-                url: "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/"
-            },
-            {
-                name: "Galaxy Z Flip7",
-                storageOptions: [
-                    { storage: "256GB", price: 7999 },
-                    { storage: "512GB", price: 8999 }
-                ],
-                url: "https://www.samsung.com/hk/smartphones/galaxy-z-flip7/buy/"
-            },
-            {
-                name: "Galaxy S26",
-                storageOptions: [
-                    { storage: "128GB", price: 5999 },
-                    { storage: "256GB", price: 6999 },
-                    { storage: "512GB", price: 7999 }
-                ],
-                url: "https://www.samsung.com/hk/smartphones/galaxy-s25/buy/"
-            }
-        ];
+        let recommendedProducts = [];
 
         async function loadDevices() {
             try {
-                const res = await fetch('devices.json');
-                devices = await res.json();
+                const [devicesRes, recRes] = await Promise.all([
+                    fetch('devices.json'),
+                    fetch('recommended-products.json')
+                ]);
+                devices = await devicesRes.json();
+                recommendedProducts = await recRes.json();
                 populateBrands();
             } catch (e) {
-                console.error('Failed to load devices.json');
+                console.error('Failed to load data files', e);
             }
         }
 

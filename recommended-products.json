@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Galaxy S25 Ultra",
+    "storageOptions": [
+      { "storage": "256GB", "sku": "SM-S9480ZKITGY", "price": 9998 },
+      { "storage": "512GB", "sku": "SM-S9480ZKOTGY", "price": 10998 },
+      { "storage": "1TB", "sku": "SM-S9480ZKPTGY", "price": 13798 }
+    ],
+    "url": "https://www.samsung.com/hk/smartphones/galaxy-s25-ultra/buy/"
+  },
+  {
+    "name": "Galaxy S25+",
+    "storageOptions": [
+      { "storage": "256GB", "sku": "SM-S9470ZKITGY", "price": 8598 },
+      { "storage": "512GB", "sku": "SM-S9470ZKOTGY", "price": 9798 }
+    ],
+    "url": "https://www.samsung.com/hk/smartphones/galaxy-s25-plus/buy/"
+  },
+  {
+    "name": "Galaxy S25",
+    "storageOptions": [
+      { "storage": "256GB", "sku": "SM-S9420ZKOTGY", "price": 6898 },
+      { "storage": "512GB", "sku": "SM-S9420ZKPTGY", "price": 8098 }
+    ],
+    "url": "https://www.samsung.com/hk/smartphones/galaxy-s25/buy/"
+  },
+  {
+    "name": "Galaxy Z Flip7",
+    "storageOptions": [
+      { "storage": "256GB", "sku": "SM-F7660DBATGY", "price": 7998 },
+      { "storage": "512GB", "sku": "SM-F7660DBETGY", "price": 8698 }
+    ],
+    "url": "https://www.samsung.com/hk/smartphones/galaxy-z-flip7/buy/"
+  },
+  {
+    "name": "Galaxy Z Fold7",
+    "storageOptions": [
+      { "storage": "256GB", "sku": "SM-F9660DBDTGY", "price": 15198 },
+      { "storage": "512GB", "sku": "SM-F9660DBGTGY", "price": 15998 },
+      { "storage": "1TB", "sku": "SM-F9660DBHTGY", "price": 16798 }
+    ],
+    "url": "https://www.samsung.com/hk/smartphones/galaxy-z-fold7/buy/"
+  }
+]
