@@ -205,23 +205,28 @@
         const recommendedProducts = [
             {
                 name: "Galaxy S26 Ultra",
-                storage: "512GB",
-                originalPrice: 10999,
-                colorOptions: ["#1a1c21", "#c6c8cb", "#007AFF", "#c9a66b"],
+                storageOptions: [
+                    { storage: "256GB", price: 9999 },
+                    { storage: "512GB", price: 10999 },
+                    { storage: "1TB", price: 12999 }
+                ],
                 url: "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/"
             },
             {
                 name: "Galaxy Z Flip7",
-                storage: "256GB",
-                originalPrice: 7999,
-                colorOptions: ["#1a1c21", "#c6c8cb", "#f4b183", "#007AFF"],
+                storageOptions: [
+                    { storage: "256GB", price: 7999 },
+                    { storage: "512GB", price: 8999 }
+                ],
                 url: "https://www.samsung.com/hk/smartphones/galaxy-z-flip7/buy/"
             },
             {
                 name: "Galaxy S26",
-                storage: "256GB",
-                originalPrice: 6999,
-                colorOptions: ["#1a1c21", "#c6c8cb", "#007AFF", "#f4b183"],
+                storageOptions: [
+                    { storage: "128GB", price: 5999 },
+                    { storage: "256GB", price: 6999 },
+                    { storage: "512GB", price: 7999 }
+                ],
                 url: "https://www.samsung.com/hk/smartphones/galaxy-s25/buy/"
             }
         ];
@@ -332,32 +337,32 @@
             const container = document.getElementById('recommended-products');
             container.innerHTML = '';
             
-            recommendedProducts.forEach(product => {
-                const youPay = Math.max(0, product.originalPrice - tradeInValue);
-                const savings = product.originalPrice - youPay;
-                
-                let colorsHTML = '';
-                product.colorOptions.forEach((color, i) => {
-                    colorsHTML += `<div class="color-chip" style="background-color: ${color}" onclick="this.classList.toggle('active')"></div>`;
-                });
+            recommendedProducts.forEach((product, idx) => {
+                const initialStorage = product.storageOptions[0];
+                let currentPrice = initialStorage.price;
+                let youPay = Math.max(0, currentPrice - tradeInValue);
                 
                 const card = document.createElement('div');
                 card.className = `bg-white border border-gray-200 rounded-3xl p-6 device-card`;
+                
+                const storageOptionsHTML = product.storageOptions.map((opt, i) => 
+                    `<option value="${i}" ${i === 0 ? 'selected' : ''}>${opt.storage}</option>`
+                ).join('');
                 
                 card.innerHTML = `
                     <div class="flex justify-between items-start mb-4">
                         <div>
                             <div class="font-semibold text-xl text-gray-900">${product.name}</div>
-                            <div class="text-sm text-gray-500">${product.storage}</div>
+                            <div class="mt-2">
+                                <select class="storage-select border border-gray-300 focus:border-[#007AFF] rounded-xl px-3 py-1.5 text-sm" onchange="updateRecommendedPrice(${idx}, this.value, ${tradeInValue}, this)">
+                                    ${storageOptionsHTML}
+                                </select>
+                            </div>
                         </div>
                         <div class="text-right">
                             <div class="text-xs text-gray-500">Original</div>
-                            <div class="font-semibold tabular-nums text-gray-900">$${product.originalPrice.toLocaleString()}</div>
+                            <div class="font-semibold tabular-nums text-gray-900 recommended-price" data-base-price="${currentPrice}">$${currentPrice.toLocaleString()}</div>
                         </div>
-                    </div>
-                    
-                    <div class="flex flex-wrap gap-2 mb-5">
-                        ${colorsHTML}
                     </div>
                     
                     <div class="pt-4 border-t border-gray-200 space-y-2 text-sm">
@@ -368,11 +373,11 @@
                         
                         <div class="pt-3 border-t border-gray-200 flex justify-between items-baseline">
                             <span class="font-medium text-gray-900">You pay after trade-in</span>
-                            <span class="text-3xl font-semibold tabular-nums text-gray-900">$${youPay.toLocaleString()}</span>
+                            <span class="text-3xl font-semibold tabular-nums text-gray-900 recommended-you-pay">$${youPay.toLocaleString()}</span>
                         </div>
                         
-                        <div class="text-xs text-emerald-600 mt-1">
-                            You save $${savings.toLocaleString()}
+                        <div class="text-xs text-emerald-600 mt-1 recommended-savings">
+                            You save $${(currentPrice - youPay).toLocaleString()}
                         </div>
                     </div>
                     
@@ -384,6 +389,22 @@
                 
                 container.appendChild(card);
             });
+        }
+        
+        function updateRecommendedPrice(productIdx, storageIdx, tradeInValue, selectEl) {
+            const product = recommendedProducts[productIdx];
+            const storageOpt = product.storageOptions[parseInt(storageIdx)];
+            const priceEl = selectEl.closest('.device-card').querySelector('.recommended-price');
+            const youPayEl = selectEl.closest('.device-card').querySelector('.recommended-you-pay');
+            const savingsEl = selectEl.closest('.device-card').querySelector('.recommended-savings');
+            
+            const newPrice = storageOpt.price;
+            const youPay = Math.max(0, newPrice - tradeInValue);
+            const savings = newPrice - youPay;
+            
+            priceEl.textContent = '$' + newPrice.toLocaleString();
+            youPayEl.textContent = '$' + youPay.toLocaleString();
+            savingsEl.textContent = 'You save $' + savings.toLocaleString();
         }
 
         window.onload = function() {
