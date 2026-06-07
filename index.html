@@ -321,10 +321,14 @@
                 
                 const card = document.createElement('div');
                 card.className = `bg-white border border-gray-200 rounded-3xl p-6 device-card`;
+                card.dataset.productIdx = idx;
                 
                 const storageOptionsHTML = product.storageOptions.map((opt, i) => 
-                    `<option value="${i}" ${i === 0 ? 'selected' : ''}>${opt.storage}</option>`
+                    `<option value="${i}" data-sku="${opt.sku}" ${i === 0 ? 'selected' : ''}>${opt.storage}</option>`
                 ).join('');
+                
+                const initialSku = initialStorage.sku;
+                const buyNowUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${initialSku}&productQty[1]=1&store=B2C&oosLink=www.samsung.com/hk/offer&app=true`;
                 
                 card.innerHTML = `
                     <div class="flex justify-between items-start mb-4">
@@ -358,8 +362,8 @@
                         </div>
                     </div>
                     
-                    <a href="${product.url}" target="_blank" 
-                       class="mt-5 block text-center w-full py-3.5 rounded-2xl samsung-btn text-sm font-medium">
+                    <a href="${buyNowUrl}" target="_blank" 
+                       class="buy-now-btn mt-5 block text-center w-full py-3.5 rounded-2xl samsung-btn text-sm font-medium">
                         Buy now
                     </a>
                 `;
@@ -371,9 +375,11 @@
         function updateRecommendedPrice(productIdx, storageIdx, tradeInValue, selectEl) {
             const product = recommendedProducts[productIdx];
             const storageOpt = product.storageOptions[parseInt(storageIdx)];
-            const priceEl = selectEl.closest('.device-card').querySelector('.recommended-price');
-            const youPayEl = selectEl.closest('.device-card').querySelector('.recommended-you-pay');
-            const savingsEl = selectEl.closest('.device-card').querySelector('.recommended-savings');
+            const card = selectEl.closest('.device-card');
+            const priceEl = card.querySelector('.recommended-price');
+            const youPayEl = card.querySelector('.recommended-you-pay');
+            const savingsEl = card.querySelector('.recommended-savings');
+            const buyBtn = card.querySelector('.buy-now-btn');
             
             const newPrice = storageOpt.price;
             const youPay = Math.max(0, newPrice - tradeInValue);
@@ -382,10 +388,84 @@
             priceEl.textContent = '$' + newPrice.toLocaleString();
             youPayEl.textContent = '$' + youPay.toLocaleString();
             savingsEl.textContent = 'You save $' + savings.toLocaleString();
+            
+            // Update Buy now button with correct SKU-based add-to-cart URL
+            if (buyBtn && storageOpt.sku) {
+                const newUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${storageOpt.sku}&productQty[1]=1&store=B2C&oosLink=www.samsung.com/hk/offer&app=true`;
+                buyBtn.href = newUrl;
+            }
         }
 
+        function detectAndPreselectFromUA() {
+            const ua = navigator.userAgent;
+            const brandSelect = document.getElementById('brand');
+            const modelSelect = document.getElementById('model');
+            const storageSelect = document.getElementById('storage');
+            
+            let detectedBrand = null;
+            let detectedModel = null;
+            let detectedStorage = null;
+            
+            // Apple detection
+            if (/iPhone|iPad|iPod/i.test(ua)) {
+                detectedBrand = 'Apple';
+                
+                // Try to detect exact iPhone model
+                const iphoneMatch = ua.match(/iPhone(?:[\s_]([0-9]+[a-zA-Z]*(?:\sPro(?:\sMax)?)?))?/i);
+                if (iphoneMatch) {
+                    let modelGuess = iphoneMatch[0].replace(/[\s_]/g, ' ');
+                    // Normalize common patterns
+                    if (/iPhone 16 Pro Max/i.test(ua)) detectedModel = 'iPhone 16 Pro Max';
+                    else if (/iPhone 16 Pro(?! Max)/i.test(ua)) detectedModel = 'iPhone 16 Pro';
+                    else if (/iPhone 15 Pro Max/i.test(ua)) detectedModel = 'iPhone 15 Pro Max';
+                    else if (/iPhone 15 Pro(?! Max)/i.test(ua)) detectedModel = 'iPhone 15 Pro';
+                    else if (/iPhone 14 Pro Max/i.test(ua)) detectedModel = 'iPhone 14 Pro Max';
+                    else if (/iPhone 14 Pro(?! Max)/i.test(ua)) detectedModel = 'iPhone 14 Pro';
+                }
+            } 
+            // Samsung detection
+            else if (/Samsung|SM-|Galaxy/i.test(ua)) {
+                detectedBrand = 'Samsung';
+                
+                // Try to detect common Samsung models from UA
+                if (/SM-S948/i.test(ua)) detectedModel = 'Galaxy S25 Ultra';
+                else if (/SM-S947/i.test(ua)) detectedModel = 'Galaxy S25+';
+                else if (/SM-S942/i.test(ua)) detectedModel = 'Galaxy S25';
+                else if (/SM-S938/i.test(ua)) detectedModel = 'Galaxy S24 Ultra';
+                else if (/SM-S937/i.test(ua)) detectedModel = 'Galaxy S24+';
+                else if (/SM-S936/i.test(ua)) detectedModel = 'Galaxy S24';
+                else if (/SM-S926/i.test(ua)) detectedModel = 'Galaxy S24+';
+                else if (/SM-S921/i.test(ua)) detectedModel = 'Galaxy S24';
+            }
+            
+            // If brand detected and exists in our devices, preselect it
+            if (detectedBrand && Array.from(brandSelect.options).some(o => o.value === detectedBrand)) {
+                brandSelect.value = detectedBrand;
+                updateModels();
+                
+                // If model detected and exists, preselect it
+                setTimeout(() => {
+                    if (detectedModel) {
+                        const modelOptions = Array.from(modelSelect.options);
+                        const matchingModelOpt = modelOptions.find(o => o.value === detectedModel);
+                        if (matchingModelOpt) {
+                            modelSelect.value = detectedModel;
+                            updateStorage();
+                            
+                            // Storage detection is harder from UA alone (rarely exposed)
+                            // For now we leave storage for user to choose, 
+                            // but could enhance later with more signals
+                        }
+                    }
+                }, 50);
+            }
+        }
+        
         window.onload = function() {
-            loadDevices();
+            loadDevices().then(() => {
+                // Run UA detection after devices are loaded
+                setTimeout(detectAndPreselectFromUA, 100);
+            });
         }
     </script>
 </body>
