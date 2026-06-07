@@ -2,43 +2,137 @@
   {
     "name": "Galaxy S25 Ultra",
     "storageOptions": [
-      { "storage": "256GB", "sku": "SM-S9480ZKITGY", "price": 9998 },
-      { "storage": "512GB", "sku": "SM-S9480ZKOTGY", "price": 10998 },
-      { "storage": "1TB", "sku": "SM-S9480ZKPTGY", "price": 13798 }
-    ],
-    "url": "https://www.samsung.com/hk/smartphones/galaxy-s25-ultra/buy/"
+      {
+        "storage": "256GB",
+        "price": 9998,
+        "colors": [
+          { "name": "Titanium Black", "sku": "SM-S9480ZKITGY" },
+          { "name": "Titanium Grey", "sku": "SM-S9480ZKIAGY" },
+          { "name": "Titanium Silver", "sku": "SM-S9480ZKISGY" },
+          { "name": "Titanium Blue", "sku": "SM-S9480ZKIDGY" }
+        ]
+      },
+      {
+        "storage": "512GB",
+        "price": 10998,
+        "colors": [
+          { "name": "Titanium Black", "sku": "SM-S9480ZKOTGY" },
+          { "name": "Titanium Grey", "sku": "SM-S9480ZKOAGY" },
+          { "name": "Titanium Silver", "sku": "SM-S9480ZKOSGY" },
+          { "name": "Titanium Blue", "sku": "SM-S9480ZKODGY" }
+        ]
+      },
+      {
+        "storage": "1TB",
+        "price": 13798,
+        "colors": [
+          { "name": "Titanium Black", "sku": "SM-S9480ZKPTGY" },
+          { "name": "Titanium Grey", "sku": "SM-S9480ZKPAGY" },
+          { "name": "Titanium Silver", "sku": "SM-S9480ZKPSGY" },
+          { "name": "Titanium Blue", "sku": "SM-S9480ZKPDGY" }
+        ]
+      }
+    ]
   },
   {
     "name": "Galaxy S25+",
     "storageOptions": [
-      { "storage": "256GB", "sku": "SM-S9470ZKITGY", "price": 8598 },
-      { "storage": "512GB", "sku": "SM-S9470ZKOTGY", "price": 9798 }
-    ],
-    "url": "https://www.samsung.com/hk/smartphones/galaxy-s25-plus/buy/"
+      {
+        "storage": "256GB",
+        "price": 8598,
+        "colors": [
+          { "name": "Navy", "sku": "SM-S9470ZKITGY" },
+          { "name": "Silver Shadow", "sku": "SM-S9470ZKIAGY" },
+          { "name": "Mint", "sku": "SM-S9470ZKISGY" }
+        ]
+      },
+      {
+        "storage": "512GB",
+        "price": 9798,
+        "colors": [
+          { "name": "Navy", "sku": "SM-S9470ZKOTGY" },
+          { "name": "Silver Shadow", "sku": "SM-S9470ZKOAGY" },
+          { "name": "Mint", "sku": "SM-S9470ZKOSGY" }
+        ]
+      }
+    ]
   },
   {
     "name": "Galaxy S25",
     "storageOptions": [
-      { "storage": "256GB", "sku": "SM-S9420ZKOTGY", "price": 6898 },
-      { "storage": "512GB", "sku": "SM-S9420ZKPTGY", "price": 8098 }
-    ],
-    "url": "https://www.samsung.com/hk/smartphones/galaxy-s25/buy/"
+      {
+        "storage": "256GB",
+        "price": 6898,
+        "colors": [
+          { "name": "Navy", "sku": "SM-S9420ZKOTGY" },
+          { "name": "Silver Shadow", "sku": "SM-S9420ZKOAGY" },
+          { "name": "Mint", "sku": "SM-S9420ZKOSGY" }
+        ]
+      },
+      {
+        "storage": "512GB",
+        "price": 8098,
+        "colors": [
+          { "name": "Navy", "sku": "SM-S9420ZKPTGY" },
+          { "name": "Silver Shadow", "sku": "SM-S9420ZKPAGY" },
+          { "name": "Mint", "sku": "SM-S9420ZKPSGY" }
+        ]
+      }
+    ]
   },
   {
     "name": "Galaxy Z Flip7",
     "storageOptions": [
-      { "storage": "256GB", "sku": "SM-F7660DBATGY", "price": 7998 },
-      { "storage": "512GB", "sku": "SM-F7660DBETGY", "price": 8698 }
-    ],
-    "url": "https://www.samsung.com/hk/smartphones/galaxy-z-flip7/buy/"
+      {
+        "storage": "256GB",
+        "price": 7998,
+        "colors": [
+          { "name": "Graphite", "sku": "SM-F7660DBATGY" },
+          { "name": "Blue", "sku": "SM-F7660DBAAGY" },
+          { "name": "Mint", "sku": "SM-F7660DBASGY" }
+        ]
+      },
+      {
+        "storage": "512GB",
+        "price": 8698,
+        "colors": [
+          { "name": "Graphite", "sku": "SM-F7660DBETGY" },
+          { "name": "Blue", "sku": "SM-F7660DBEAGY" },
+          { "name": "Mint", "sku": "SM-F7660DBESGY" }
+        ]
+      }
+    ]
   },
   {
     "name": "Galaxy Z Fold7",
     "storageOptions": [
-      { "storage": "256GB", "sku": "SM-F9660DBDTGY", "price": 15198 },
-      { "storage": "512GB", "sku": "SM-F9660DBGTGY", "price": 15998 },
-      { "storage": "1TB", "sku": "SM-F9660DBHTGY", "price": 16798 }
-    ],
-    "url": "https://www.samsung.com/hk/smartphones/galaxy-z-fold7/buy/"
+      {
+        "storage": "256GB",
+        "price": 15198,
+        "colors": [
+          { "name": "Graphite", "sku": "SM-F9660DBDTGY" },
+          { "name": "Silver", "sku": "SM-F9660DBDAGY" },
+          { "name": "Blue", "sku": "SM-F9660DBDSGY" }
+        ]
+      },
+      {
+        "storage": "512GB",
+        "price": 15998,
+        "colors": [
+          { "name": "Graphite", "sku": "SM-F9660DBGTGY" },
+          { "name": "Silver", "sku": "SM-F9660DBGAGY" },
+          { "name": "Blue", "sku": "SM-F9660DBGSGY" }
+        ]
+      },
+      {
+        "storage": "1TB",
+        "price": 16798,
+        "colors": [
+          { "name": "Graphite", "sku": "SM-F9660DBHTGY" },
+          { "name": "Silver", "sku": "SM-F9660DBHAGY" },
+          { "name": "Blue", "sku": "SM-F9660DBHSGY" }
+        ]
+      }
+    ]
   }
 ]

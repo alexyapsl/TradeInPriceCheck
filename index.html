@@ -189,6 +189,31 @@
                     <div id="recommended-products" class="space-y-3">
                         <!-- Populated by JS -->
                     </div>
+
+                    <!-- Color Selection Modal -->
+                    <div id="color-modal" class="hidden fixed inset-0 bg-black/50 z-[100] flex items-end lg:items-center justify-center">
+                        <div class="bg-white w-full lg:w-[420px] lg:rounded-3xl lg:m-4 rounded-t-3xl p-6">
+                            <div class="flex items-center justify-between mb-5">
+                                <div class="font-semibold text-xl">Choose color</div>
+                                <button onclick="closeColorModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
+                            </div>
+                            
+                            <div id="color-options" class="grid grid-cols-1 gap-2 mb-6">
+                                <!-- Populated dynamically -->
+                            </div>
+
+                            <div class="flex gap-3">
+                                <button onclick="closeColorModal()" 
+                                        class="flex-1 py-3.5 rounded-2xl border border-gray-300 text-sm font-medium">Cancel</button>
+                                <button id="confirm-color-btn" 
+                                        onclick="confirmColorSelection()"
+                                        class="flex-1 py-3.5 rounded-2xl samsung-btn text-sm font-medium disabled:opacity-50" disabled>
+                                    Continue to checkout
+                                </button>
+                            </div>
+                            <div class="text-[10px] text-center text-gray-400 mt-4">Prices may vary by color availability</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -322,13 +347,16 @@
                 const card = document.createElement('div');
                 card.className = `bg-white border border-gray-200 rounded-3xl p-6 device-card`;
                 card.dataset.productIdx = idx;
+                card.dataset.tradeInValue = tradeInValue;
                 
                 const storageOptionsHTML = product.storageOptions.map((opt, i) => 
-                    `<option value="${i}" data-sku="${opt.sku}" ${i === 0 ? 'selected' : ''}>${opt.storage}</option>`
+                    `<option value="${i}" ${i === 0 ? 'selected' : ''}>${opt.storage}</option>`
                 ).join('');
                 
-                const initialSku = initialStorage.sku;
-                const buyNowUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${initialSku}&productQty[1]=1&store=B2C&oosLink=www.samsung.com/hk/offer&app=true`;
+                const initialColor = initialStorage.colors ? initialStorage.colors[0] : null;
+                const initialSku = initialColor ? initialColor.sku : '';
+                const buyNowUrl = initialSku ? 
+                    `https://www.samsung.com/hk/offer/magic/?productCode[1]=${initialSku}&productQty[1]=1&store=B2C&oosLink=www.samsung.com/hk/offer&app=true` : '#';
                 
                 card.innerHTML = `
                     <div class="flex justify-between items-start mb-4">
@@ -362,10 +390,10 @@
                         </div>
                     </div>
                     
-                    <a href="${buyNowUrl}" target="_blank" 
-                       class="buy-now-btn mt-5 block text-center w-full py-3.5 rounded-2xl samsung-btn text-sm font-medium">
+                    <button onclick="showColorModal(${idx}, this)" 
+                            class="mt-5 w-full py-3.5 rounded-2xl samsung-btn text-sm font-medium">
                         Buy now
-                    </a>
+                    </button>
                 `;
                 
                 container.appendChild(card);
@@ -379,7 +407,6 @@
             const priceEl = card.querySelector('.recommended-price');
             const youPayEl = card.querySelector('.recommended-you-pay');
             const savingsEl = card.querySelector('.recommended-savings');
-            const buyBtn = card.querySelector('.buy-now-btn');
             
             const newPrice = storageOpt.price;
             const youPay = Math.max(0, newPrice - tradeInValue);
@@ -389,11 +416,9 @@
             youPayEl.textContent = '$' + youPay.toLocaleString();
             savingsEl.textContent = 'You save $' + savings.toLocaleString();
             
-            // Update Buy now button with correct SKU-based add-to-cart URL
-            if (buyBtn && storageOpt.sku) {
-                const newUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${storageOpt.sku}&productQty[1]=1&store=B2C&oosLink=www.samsung.com/hk/offer&app=true`;
-                buyBtn.href = newUrl;
-            }
+            // Clear any previously stored color selection when storage changes
+            delete card.dataset.selectedColorSku;
+            delete card.dataset.selectedColorName;
         }
 
         function detectAndPreselectFromUA() {
@@ -461,6 +486,108 @@
             }
         }
         
+        let currentModalProductIdx = null;
+        let currentModalCard = null;
+        let selectedColorSku = null;
+
+        function showColorModal(productIdx, btnEl) {
+            const product = recommendedProducts[productIdx];
+            const card = btnEl.closest('.device-card');
+            const storageSelect = card.querySelector('.storage-select');
+            const storageIdx = storageSelect ? storageSelect.value : 0;
+            const storageOpt = product.storageOptions[parseInt(storageIdx)];
+            
+            if (!storageOpt.colors || storageOpt.colors.length === 0) {
+                // No color options defined, go straight to checkout
+                const fallbackSku = storageOpt.sku || '';
+                if (fallbackSku) {
+                    const url = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${fallbackSku}&productQty[1]=1&store=B2C&oosLink=www.samsung.com/hk/offer&app=true`;
+                    window.open(url, '_blank');
+                }
+                return;
+            }
+
+            currentModalProductIdx = productIdx;
+            currentModalCard = card;
+            selectedColorSku = null;
+
+            const modal = document.getElementById('color-modal');
+            const optionsContainer = document.getElementById('color-options');
+            const confirmBtn = document.getElementById('confirm-color-btn');
+            
+            optionsContainer.innerHTML = '';
+            
+            storageOpt.colors.forEach((color, i) => {
+                const colorDiv = document.createElement('div');
+                colorDiv.className = `flex items-center justify-between px-4 py-3.5 border border-gray-200 rounded-2xl cursor-pointer hover:border-[#007AFF] transition-colors color-option`;
+                colorDiv.innerHTML = `
+                    <div class="flex items-center gap-x-3">
+                        <div class="w-5 h-5 rounded-full border border-gray-200" style="background: ${getColorHex(color.name)}"></div>
+                        <div class="font-medium text-gray-900">${color.name}</div>
+                    </div>
+                    <div class="text-xs text-gray-400">${storageOpt.storage}</div>
+                `;
+                
+                colorDiv.onclick = () => {
+                    // Deselect all
+                    optionsContainer.querySelectorAll('.color-option').forEach(el => {
+                        el.classList.remove('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
+                    });
+                    // Select this one
+                    colorDiv.classList.add('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
+                    selectedColorSku = color.sku;
+                    confirmBtn.disabled = false;
+                };
+                
+                // Auto-select first color
+                if (i === 0) {
+                    setTimeout(() => {
+                        colorDiv.classList.add('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
+                        selectedColorSku = color.sku;
+                        confirmBtn.disabled = false;
+                    }, 10);
+                }
+                
+                optionsContainer.appendChild(colorDiv);
+            });
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function getColorHex(colorName) {
+            const map = {
+                'Titanium Black': '#1f2937',
+                'Titanium Grey': '#6b7280',
+                'Titanium Silver': '#d1d5db',
+                'Titanium Blue': '#3b82f6',
+                'Navy': '#1e3a8a',
+                'Silver Shadow': '#9ca3af',
+                'Mint': '#86efac',
+                'Graphite': '#374151',
+                'Blue': '#2563eb',
+                'Silver': '#e5e7eb'
+            };
+            return map[colorName] || '#9ca3af';
+        }
+
+        function closeColorModal() {
+            const modal = document.getElementById('color-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+            selectedColorSku = null;
+            currentModalProductIdx = null;
+            currentModalCard = null;
+        }
+
+        function confirmColorSelection() {
+            if (!selectedColorSku || currentModalProductIdx === null) return;
+            
+            const url = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${selectedColorSku}&productQty[1]=1&store=B2C&oosLink=www.samsung.com/hk/offer&app=true`;
+            window.open(url, '_blank');
+            closeColorModal();
+        }
+
         window.onload = function() {
             loadDevices().then(() => {
                 // Run UA detection after devices are loaded
