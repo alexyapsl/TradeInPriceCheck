@@ -214,6 +214,29 @@
                             <div class="text-[10px] text-center text-gray-400 mt-4">Prices may vary by color availability</div>
                         </div>
                     </div>
+
+                    <!-- Trade-in Confirmation Modal -->
+                    <div id="tradein-confirm-modal" class="hidden fixed inset-0 bg-black/50 z-[110] flex items-end lg:items-center justify-center">
+                        <div class="bg-white w-full lg:w-[420px] lg:rounded-3xl lg:m-4 rounded-t-3xl p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="font-semibold text-xl text-gray-900">Important reminder</div>
+                                <button onclick="closeTradeInConfirmModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
+                            </div>
+                            
+                            <div class="text-sm text-gray-700 leading-relaxed mb-6">
+                                Adding product to cart, remember to add your trade in device in the cart with IMEI and device condition again to enjoy the guarantee trade in price
+                            </div>
+
+                            <div class="flex gap-3">
+                                <button onclick="closeTradeInConfirmModal()" 
+                                        class="flex-1 py-3.5 rounded-2xl border border-gray-300 text-sm font-medium">Cancel</button>
+                                <button onclick="confirmTradeInAndRedirect()" 
+                                        class="flex-1 py-3.5 rounded-2xl samsung-btn text-sm font-medium">
+                                    OK
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -489,6 +512,7 @@
         let currentModalProductIdx = null;
         let currentModalCard = null;
         let selectedColorSku = null;
+        let pendingMagicUrl = null;
 
         function showColorModal(productIdx, btnEl) {
             const product = recommendedProducts[productIdx];
@@ -498,11 +522,11 @@
             const storageOpt = product.storageOptions[parseInt(storageIdx)];
             
             if (!storageOpt.colors || storageOpt.colors.length === 0) {
-                // No color options defined, go straight to checkout
+                // No color options defined, go straight to confirmation then checkout
                 const fallbackSku = storageOpt.sku || '';
                 if (fallbackSku) {
-                    const url = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${fallbackSku}&productQty[1]=1&store=B2C&oosLink=www.samsung.com/hk/offer&app=true`;
-                    window.open(url, '_blank');
+                    pendingMagicUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${fallbackSku}&productQty[1]=1&store=B2C&oosLink=www.samsung.com/hk/offer&app=true`;
+                    showTradeInConfirmModal();
                 }
                 return;
             }
@@ -583,9 +607,32 @@
         function confirmColorSelection() {
             if (!selectedColorSku || currentModalProductIdx === null) return;
             
-            const url = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${selectedColorSku}&productQty[1]=1&store=B2C&oosLink=www.samsung.com/hk/offer&app=true`;
-            window.open(url, '_blank');
+            // Store the URL and show trade-in confirmation modal instead of direct redirect
+            pendingMagicUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${selectedColorSku}&productQty[1]=1&store=B2C&oosLink=www.samsung.com/hk/offer&app=true`;
             closeColorModal();
+            showTradeInConfirmModal();
+        }
+
+        let pendingMagicUrl = null;
+
+        function showTradeInConfirmModal() {
+            const modal = document.getElementById('tradein-confirm-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeTradeInConfirmModal() {
+            const modal = document.getElementById('tradein-confirm-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+            pendingMagicUrl = null;
+        }
+
+        function confirmTradeInAndRedirect() {
+            if (pendingMagicUrl) {
+                window.open(pendingMagicUrl, '_blank');
+            }
+            closeTradeInConfirmModal();
         }
 
         window.onload = function() {
