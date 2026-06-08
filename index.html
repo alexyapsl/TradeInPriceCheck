@@ -358,11 +358,29 @@
             }
         }
 
+        function getAllowedRecommendations(device) {
+            if (!device) return null;
+            const recs = [];
+            if (device.recommendation1) recs.push(device.recommendation1);
+            if (device.recommendation2) recs.push(device.recommendation2);
+            return recs.length > 0 ? recs : null;
+        }
+
         function renderRecommendedProducts(tradeInValue) {
             const container = document.getElementById('recommended-products');
             container.innerHTML = '';
             
+            // Get current device recommendations
+            const brand = document.getElementById('brand').value;
+            const model = document.getElementById('model').value;
+            const storage = document.getElementById('storage').value;
+            const currentDevice = devices.find(d => d.brand === brand && d.model === model && d.storage === storage);
+            const allowedRecs = getAllowedRecommendations(currentDevice);
+            
             recommendedProducts.forEach((product, idx) => {
+                // Check if this product should be shown based on recommendations
+                const shouldShow = !allowedRecs || allowedRecs.includes(product.name);
+                if (!shouldShow) return;
                 const initialStorage = product.storageOptions[0];
                 let currentPrice = initialStorage.price;
                 let youPay = Math.max(0, currentPrice - tradeInValue);
