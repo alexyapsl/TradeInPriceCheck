@@ -462,6 +462,24 @@
             delete card.dataset.selectedColorName;
         }
 
+        function detectIPhoneModel(ua) {
+            const patterns = [
+                { re: /iPhone 16 Pro Max/i, model: 'iPhone 16 Pro Max' },
+                { re: /iPhone 16 Pro(?! Max)/i,  model: 'iPhone 16 Pro' },
+                { re: /iPhone 15 Pro Max/i, model: 'iPhone 15 Pro Max' },
+                { re: /iPhone 15 Pro(?! Max)/i,  model: 'iPhone 15 Pro' },
+                { re: /iPhone 14 Pro Max/i, model: 'iPhone 14 Pro Max' },
+                { re: /iPhone 14 Pro(?! Max)/i,  model: 'iPhone 14 Pro' },
+                { re: /iPhone XS Max/i,      model: 'iPhone XS Max' },
+                { re: /iPhone XS(?! Max)/i,   model: 'iPhone XS' },
+                { re: /iPhone X(?!S)/i,       model: 'iPhone X' }
+            ];
+            for (const p of patterns) {
+                if (p.re.test(ua) && p.model) return p.model;
+            }
+            return null;
+        }
+
         function detectAndPreselectFromUA() {
             const ua = navigator.userAgent;
             const brandSelect = document.getElementById('brand');
@@ -472,22 +490,10 @@
             let detectedModel = null;
             let detectedStorage = null;
             
-            // Apple detection
+            // Apple detection (dynamic via detectIPhoneModel)
             if (/iPhone|iPad|iPod/i.test(ua)) {
                 detectedBrand = 'Apple';
-                
-                // Try to detect exact iPhone model
-                const iphoneMatch = ua.match(/iPhone(?:[\s_]([0-9]+[a-zA-Z]*(?:\sPro(?:\sMax)?)?))?/i);
-                if (iphoneMatch) {
-                    let modelGuess = iphoneMatch[0].replace(/[\s_]/g, ' ');
-                    // Normalize common patterns
-                    if (/iPhone 16 Pro Max/i.test(ua)) detectedModel = 'iPhone 16 Pro Max';
-                    else if (/iPhone 16 Pro(?! Max)/i.test(ua)) detectedModel = 'iPhone 16 Pro';
-                    else if (/iPhone 15 Pro Max/i.test(ua)) detectedModel = 'iPhone 15 Pro Max';
-                    else if (/iPhone 15 Pro(?! Max)/i.test(ua)) detectedModel = 'iPhone 15 Pro';
-                    else if (/iPhone 14 Pro Max/i.test(ua)) detectedModel = 'iPhone 14 Pro Max';
-                    else if (/iPhone 14 Pro(?! Max)/i.test(ua)) detectedModel = 'iPhone 14 Pro';
-                }
+                detectedModel = detectIPhoneModel(ua);
             } 
             // Samsung detection
             else if (/Samsung|SM-|Galaxy/i.test(ua)) {
