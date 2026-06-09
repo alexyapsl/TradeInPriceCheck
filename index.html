@@ -254,9 +254,10 @@
 
         async function loadDevices() {
             try {
+                const bust = '?t=' + Date.now();
                 const [devicesRes, recRes] = await Promise.all([
-                    fetch('devices.json'),
-                    fetch('recommended-products.json')
+                    fetch('devices.json' + bust),
+                    fetch('recommended-products.json' + bust)
                 ]);
                 devices = await devicesRes.json();
                 recommendedProducts = await recRes.json();
