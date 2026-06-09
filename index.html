@@ -545,13 +545,10 @@
             const storageIdx = storageSelect ? storageSelect.value : 0;
             const storageOpt = product.storageOptions[parseInt(storageIdx)];
             
-            if (!storageOpt.colors || storageOpt.colors.length === 0) {
-                // No color options defined, go straight to confirmation then checkout
-                const fallbackSku = storageOpt.sku || '';
-                if (fallbackSku) {
-                    pendingMagicUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${fallbackSku}&productQty[1]=1&store=B2C&oosLink=www.samsung.com/hk/offer&app=true`;
-                    showTradeInConfirmModal();
-                }
+            const anyInStock = storageOpt.colors && storageOpt.colors.some(c => c.inStock !== false);
+            if (!storageOpt.colors || storageOpt.colors.length === 0 || !anyInStock) {
+                // No color options or everything out of stock
+                alert('This storage option is currently out of stock.');
                 return;
             }
 
@@ -565,35 +562,41 @@
             
             optionsContainer.innerHTML = '';
             
+            const anyInStock = storageOpt.colors.some(c => c.inStock !== false);
+            
             storageOpt.colors.forEach((color, i) => {
+                const isOos = color.inStock === false;
                 const colorDiv = document.createElement('div');
-                colorDiv.className = `flex items-center justify-between px-4 py-3.5 border border-gray-200 rounded-2xl cursor-pointer hover:border-[#007AFF] transition-colors color-option`;
+                colorDiv.className = `flex items-center justify-between px-4 py-3.5 border border-gray-200 rounded-2xl transition-colors color-option ${isOos ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:border-[#007AFF]'}`;
                 colorDiv.innerHTML = `
                     <div class="flex items-center gap-x-3">
                         <div class="w-5 h-5 rounded-full border border-gray-200" style="background: ${getColorHex(color.name)}"></div>
                         <div class="font-medium text-gray-900">${color.name}</div>
+                        ${isOos ? '<span class="text-[10px] text-red-500 ml-1">Out of stock</span>' : ''}
                     </div>
                     <div class="text-xs text-gray-400">${storageOpt.storage}</div>
                 `;
                 
-                colorDiv.onclick = () => {
-                    // Deselect all
-                    optionsContainer.querySelectorAll('.color-option').forEach(el => {
-                        el.classList.remove('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
-                    });
-                    // Select this one
-                    colorDiv.classList.add('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
-                    selectedColorSku = color.sku;
-                    confirmBtn.disabled = false;
-                };
-                
-                // Auto-select first color
-                if (i === 0) {
-                    setTimeout(() => {
+                if (!isOos) {
+                    colorDiv.onclick = () => {
+                        // Deselect all
+                        optionsContainer.querySelectorAll('.color-option').forEach(el => {
+                            el.classList.remove('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
+                        });
+                        // Select this one
                         colorDiv.classList.add('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
                         selectedColorSku = color.sku;
                         confirmBtn.disabled = false;
-                    }, 10);
+                    };
+                    
+                    // Auto-select first in-stock color
+                    if (i === 0 || !anyInStock) {
+                        setTimeout(() => {
+                            colorDiv.classList.add('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
+                            selectedColorSku = color.sku;
+                            confirmBtn.disabled = false;
+                        }, 10);
+                    }
                 }
                 
                 optionsContainer.appendChild(colorDiv);
