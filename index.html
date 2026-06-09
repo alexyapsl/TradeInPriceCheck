@@ -682,7 +682,7 @@
 
             if (!color || !color.gift1) {
                 // No gifts defined → go straight to warning
-                pendingMagicUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${selectedColorSku}&productQty[1]=1&store=B2C&oosLink=www.samsung.com/hk/offer`;
+                pendingMagicUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${selectedColorSku}&productQty[1]=1&store=B2C&oosLink=www.samsung.com/hk/offer&newCart=true`;
                 showTradeInConfirmModal();
                 return;
             }
@@ -727,7 +727,7 @@
                     selectedGiftSku = actualGiftSku;
                     closeGiftModal();
                     // Show the original warning popup before redirect
-                    pendingMagicUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${selectedColorSku}&productQty[1]=1&productCode[2]=${actualGiftSku}&productQty[2]=1&store=B2C&oosLink=www.samsung.com/hk/offer`;
+                    pendingMagicUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${selectedColorSku}&productQty[1]=1&productCode[2]=${actualGiftSku}&productQty[2]=1&store=B2C&oosLink=www.samsung.com/hk/offer&newCart=true`;
                     showTradeInConfirmModal();
                 };
                 optionsContainer.appendChild(btn);
