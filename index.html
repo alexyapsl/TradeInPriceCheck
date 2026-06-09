@@ -656,8 +656,19 @@
 
         function confirmColorSelection() {
             if (!selectedColorSku || currentModalProductIdx === null) return;
-            
+
+            // Save the needed values BEFORE closing the color modal
+            const savedProductIdx = currentModalProductIdx;
+            const savedCard = currentModalCard;
+            const savedSku = selectedColorSku;
+
             closeColorModal();
+
+            // Restore before calling gift modal
+            currentModalProductIdx = savedProductIdx;
+            currentModalCard = savedCard;
+            selectedColorSku = savedSku;
+
             showGiftModal();
         }
 
