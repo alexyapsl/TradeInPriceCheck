@@ -545,7 +545,8 @@
             const storageSelect = card.querySelector('.storage-select');
             const storageIdx = storageSelect ? storageSelect.value : 0;
             const storageOpt = product.storageOptions[parseInt(storageIdx)];
-            
+            const anyInStock = storageOpt.colors && storageOpt.colors.some(c => c.inStock !== false);
+
             if (!storageOpt.colors || storageOpt.colors.length === 0 || !anyInStock) {
                 // No color options or everything out of stock
                 alert('This storage option is currently out of stock.');
@@ -561,8 +562,6 @@
             const confirmBtn = document.getElementById('confirm-color-btn');
             
             optionsContainer.innerHTML = '';
-            
-            const anyInStock = storageOpt.colors.some(c => c.inStock !== false);
             
             storageOpt.colors.forEach((color, i) => {
                 const isOos = color.inStock === false;
