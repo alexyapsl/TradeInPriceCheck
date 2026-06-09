@@ -379,7 +379,7 @@
             
             recommendedProducts.forEach((product, originalIdx) => {
                 // Check if this product should be shown based on recommendations
-                const shouldShow = !allowedRecs || allowedRecs.includes(product.name);
+                const shouldShow = !allowedRecs || allowedRecs.some(r => (r||'').trim().toLowerCase() === (product.name||'').trim().toLowerCase());
                 if (!shouldShow) return;
                 const initialStorage = product.storageOptions[0];
                 let currentPrice = initialStorage.price;
