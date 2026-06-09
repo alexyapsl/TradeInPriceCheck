@@ -541,7 +541,27 @@
         let currentModalProductIdx = null;
         let currentModalCard = null;
         let selectedColorSku = null;
+        let selectedGiftSku = null;
         let pendingMagicUrl = null;
+
+        // Gift mapping (from gift-set sheet)
+        const giftMap = {
+            "S26U_Gift001": { name: "50W PD Power Adapter T5020 (With 5A USB-c to USB-C cable)", image: "https://images.samsung.com/is/image/samsung/p6pim/hk/ep-t5020xbeggb/gallery/hk-50w-power-adapter-duo-ep-t5020-ep-t5020xbeggb-542105839?$1164_776_PNG$" },
+            "S26U_Gift002": { name: "Galaxy S26 Ultra Clear Magnet Case", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/s2602/gallery/hk-en-galaxy-s26ultra-cs948-ef-cs948ctegww-thumb-550974627?$Q90_330_330_F_PNG$" },
+            "S26U_Gift003": { name: "Magnet Wireless Charger", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/s2602/gallery/hk-en-ep-p2900-ep-p2900bbegww-550976156?$1164_776_PNG$" },
+            "Fold7_Gift001": { name: "50W PD Power Adapter T5020 (With 5A USB-c to USB-C cable)", image: "https://images.samsung.com/is/image/samsung/p6pim/hk/ep-t5020xbeggb/gallery/hk-50w-power-adapter-duo-ep-t5020-ep-t5020xbeggb-542105839?$1164_776_PNG$" },
+            "Fold7_Gift002": { name: "Galaxy Z Fold7 Clear Magnet Case", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/f2507/gallery/hk-en-galaxy-z-fold7-clear-magnet-case-gp-fff966ycatw-547671293?$1164_776_PNG$" },
+            "Fold7_Gift003": { name: "Magnet Wireless Charger", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/s2602/gallery/hk-en-ep-p2900-ep-p2900bbegww-550976156?$1164_776_PNG$" },
+            "Flip7_Gift001": { name: "50W PD Power Adapter T5020 (With 5A USB-c to USB-C cable)", image: "https://images.samsung.com/is/image/samsung/p6pim/hk/ep-t5020xbeggb/gallery/hk-50w-power-adapter-duo-ep-t5020-ep-t5020xbeggb-542105839?$1164_776_PNG$" },
+            "Flip7_Gift002": { name: "Galaxy Z Flip7 Clear Magnet Case", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/f2507/gallery/hk-en-galaxy-z-flip7-clear-magnet-case-gp-fff766ycatw-547670836?$1164_776_PNG$" },
+            "Flip7_Gift003": { name: "Magnet Wireless Charger", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/s2602/gallery/hk-en-ep-p2900-ep-p2900bbegww-550976156?$1164_776_PNG$" },
+            "S26P_Gift001": { name: "50W PD Power Adapter T5020 (With 5A USB-c to USB-C cable)", image: "https://images.samsung.com/is/image/samsung/p6pim/hk/ep-t5020xbeggb/gallery/hk-50w-power-adapter-duo-ep-t5020-ep-t5020xbeggb-542105839?$1164_776_PNG$" },
+            "S26P_Gift002": { name: "Galaxy S26+ Clear Magnet Case", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/s2602/gallery/hk-en-galaxy-s26plus-cs947-ef-cs947ctegww-550974561?$1164_776_PNG$" },
+            "S26P_Gift003": { name: "Magnet Wireless Charger", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/s2602/gallery/hk-en-ep-p2900-ep-p2900bbegww-550976156?$1164_776_PNG$" },
+            "S26B_Gift001": { name: "50W PD Power Adapter T5020 (With 5A USB-c to USB-C cable)", image: "https://images.samsung.com/is/image/samsung/p6pim/hk/ep-t5020xbeggb/gallery/hk-50w-power-adapter-duo-ep-t5020-ep-t5020xbeggb-542105839?$1164_776_PNG$" },
+            "S26B_Gift002": { name: "Galaxy S26 Clear Magnet Case", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/s2602/gallery/hk-en-galaxy-s26-cs942-ef-cs942ctegww-550974547?$1164_776_PNG$" },
+            "S26B_Gift003": { name: "Magnet Wireless Charger", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/s2602/gallery/hk-en-ep-p2900-ep-p2900bbegww-550976156?$1164_776_PNG$" }
+        };
 
         function showColorModal(productIdx, btnEl) {
             const product = recommendedProducts[productIdx];
@@ -637,10 +657,79 @@
         function confirmColorSelection() {
             if (!selectedColorSku || currentModalProductIdx === null) return;
             
-            // Store the URL and show trade-in confirmation modal instead of direct redirect
-            pendingMagicUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${selectedColorSku}&productQty[1]=1&store=B2C&oosLink=www.samsung.com/hk/offer&app=true`;
             closeColorModal();
-            showTradeInConfirmModal();
+            showGiftModal();
+        }
+
+        function showGiftModal() {
+            const product = recommendedProducts[currentModalProductIdx];
+            const card = currentModalCard;
+            const storageSelect = card.querySelector('.storage-select');
+            const storageIdx = storageSelect ? storageSelect.value : 0;
+            const storageOpt = product.storageOptions[parseInt(storageIdx)];
+            const color = storageOpt.colors.find(c => c.sku === selectedColorSku);
+
+            if (!color || !color.gift1) {
+                // No gifts defined → go straight to warning
+                pendingMagicUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${selectedColorSku}&productQty[1]=1&store=B2C&oosLink=www.samsung.com/hk/offer&app=true`;
+                showTradeInConfirmModal();
+                return;
+            }
+
+            // Create gift modal dynamically if it doesn't exist
+            let giftModal = document.getElementById('gift-modal');
+            if (!giftModal) {
+                giftModal = document.createElement('div');
+                giftModal.id = 'gift-modal';
+                giftModal.className = 'hidden fixed inset-0 bg-black/50 z-[120] flex items-end lg:items-center justify-center';
+                giftModal.innerHTML = `
+                    <div class="bg-white w-full lg:w-[420px] lg:rounded-3xl lg:m-4 rounded-t-3xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="font-semibold text-xl">Choose your gift</div>
+                            <button onclick="closeGiftModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
+                        </div>
+                        <div id="gift-options" class="space-y-3"></div>
+                    </div>
+                `;
+                document.body.appendChild(giftModal);
+            }
+
+            const optionsContainer = giftModal.querySelector('#gift-options');
+            optionsContainer.innerHTML = '';
+
+            const gifts = [color.gift1, color.gift2, color.gift3];
+
+            gifts.forEach((giftCode, idx) => {
+                const info = giftMap[giftCode] || { name: giftCode, image: '' };
+                const btn = document.createElement('button');
+                btn.className = 'w-full flex items-center gap-4 p-4 border border-gray-200 rounded-2xl hover:border-[#007AFF] text-left';
+                btn.innerHTML = `
+                    <img src="${info.image}" class="w-16 h-16 object-contain rounded-xl border" alt="${info.name}">
+                    <div>
+                        <div class="font-medium text-gray-900">${info.name}</div>
+                        <div class="text-xs text-emerald-600 mt-0.5">Free gift</div>
+                    </div>
+                `;
+                btn.onclick = () => {
+                    selectedGiftSku = giftCode;
+                    closeGiftModal();
+                    // Show the original warning popup before redirect
+                    pendingMagicUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${selectedColorSku}&productQty[1]=1&productCode[2]=${giftCode}&productQty[2]=1&store=B2C&oosLink=www.samsung.com/hk/offer&app=true`;
+                    showTradeInConfirmModal();
+                };
+                optionsContainer.appendChild(btn);
+            });
+
+            giftModal.classList.remove('hidden');
+            giftModal.classList.add('flex');
+        }
+
+        function closeGiftModal() {
+            const giftModal = document.getElementById('gift-modal');
+            if (giftModal) {
+                giftModal.classList.remove('flex');
+                giftModal.classList.add('hidden');
+            }
         }
 
         function showTradeInConfirmModal() {
