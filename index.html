@@ -382,7 +382,9 @@
                 // Check if this product should be shown based on recommendations
                 const shouldShow = !allowedRecs || allowedRecs.some(r => (r||'').trim().toLowerCase() === (product.name||'').trim().toLowerCase());
                 if (!shouldShow) return;
-                const initialStorage = product.storageOptions[0];
+
+                // Pick the largest storage tier that has a real price (>0) as the initial display
+                let initialStorage = product.storageOptions.find(opt => opt.price > 0) || product.storageOptions[0];
                 let currentPrice = initialStorage.price;
                 let youPay = Math.max(0, currentPrice - tradeInValue);
                 
@@ -391,13 +393,11 @@
                 card.dataset.productIdx = originalIdx;
                 card.dataset.tradeInValue = tradeInValue;
                 
-                // Only show storage tiers that have at least one in-stock color
-                const inStockTiers = product.storageOptions.filter(opt => opt.anyInStock !== false);
-                const storageOptionsHTML = inStockTiers.length > 0 
-                    ? inStockTiers.map((opt, i) => 
-                        `<option value="${product.storageOptions.indexOf(opt)}" ${i === 0 ? 'selected' : ''}>${opt.storage}</option>`
-                      ).join('')
-                    : `<option value="0" disabled>${product.storageOptions[0].storage} (out of stock)</option>`;
+                // Show all tiers; mark completely OOS tiers as disabled
+                const storageOptionsHTML = product.storageOptions.map((opt, idx) => {
+                    const isOos = (opt.price === 0 && opt.anyInStock === false);
+                    return `<option value="${idx}" ${isOos ? 'disabled' : ''}>${opt.storage}${isOos ? ' (out of stock)' : ''}</option>`;
+                }).join('');
                 
                 const initialColor = initialStorage.colors ? initialStorage.colors[0] : null;
                 const initialSku = initialColor ? initialColor.sku : '';
