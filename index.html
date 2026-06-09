@@ -391,9 +391,13 @@
                 card.dataset.productIdx = originalIdx;
                 card.dataset.tradeInValue = tradeInValue;
                 
-                const storageOptionsHTML = product.storageOptions.map((opt, i) => 
-                    `<option value="${i}" ${i === 0 ? 'selected' : ''}>${opt.storage}</option>`
-                ).join('');
+                // Only show storage tiers that have at least one in-stock color
+                const inStockTiers = product.storageOptions.filter(opt => opt.anyInStock !== false);
+                const storageOptionsHTML = inStockTiers.length > 0 
+                    ? inStockTiers.map((opt, i) => 
+                        `<option value="${product.storageOptions.indexOf(opt)}" ${i === 0 ? 'selected' : ''}>${opt.storage}</option>`
+                      ).join('')
+                    : `<option value="0" disabled>${product.storageOptions[0].storage} (out of stock)</option>`;
                 
                 const initialColor = initialStorage.colors ? initialStorage.colors[0] : null;
                 const initialSku = initialColor ? initialColor.sku : '';
