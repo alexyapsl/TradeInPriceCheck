@@ -1,104 +1,281 @@
 [
   {
-    "name": "Galaxy S25 Ultra",
+    "name": "Galaxy S26 Ultra",
     "storageOptions": [
       {
-        "storage": "256GB",
-        "price": 9998,
+        "storage": "1TB+16GB",
+        "price": 0,
         "colors": [
-          { "name": "Titanium Black", "sku": "SM-S9480ZKITGY" },
-          { "name": "Titanium Grey", "sku": "SM-S9480ZKIAGY" },
-          { "name": "Titanium Silver", "sku": "SM-S9480ZKISGY" },
-          { "name": "Titanium Blue", "sku": "SM-S9480ZKIDGY" }
+          {
+            "name": "Black",
+            "sku": "SM-S9480ZKPTGY",
+            "gift1": "S26U_Gift001",
+            "gift2": "S26U_Gift002",
+            "gift3": "S26U_Gift003"
+          },
+          {
+            "name": "Sky Blue",
+            "sku": "SM-S9480LBPTGY",
+            "gift1": "S26U_Gift001",
+            "gift2": "S26U_Gift002",
+            "gift3": "S26U_Gift003"
+          },
+          {
+            "name": "Cobalt Violet",
+            "sku": "SM-S9480ZVPTGY",
+            "gift1": "S26U_Gift001",
+            "gift2": "S26U_Gift002",
+            "gift3": "S26U_Gift003"
+          },
+          {
+            "name": "Pink Gold",
+            "sku": "SM-S9480ZDPTGY",
+            "gift1": "S26U_Gift001",
+            "gift2": "S26U_Gift002",
+            "gift3": "S26U_Gift003"
+          },
+          {
+            "name": "Silver Shadow",
+            "sku": "SM-S9480ZSPTGY",
+            "gift1": "S26U_Gift001",
+            "gift2": "S26U_Gift002",
+            "gift3": "S26U_Gift003"
+          }
         ]
       },
       {
-        "storage": "512GB",
-        "price": 10998,
+        "storage": "512GB+12GB",
+        "price": 0,
         "colors": [
-          { "name": "Titanium Black", "sku": "SM-S9480ZKOTGY" },
-          { "name": "Titanium Grey", "sku": "SM-S9480ZKOAGY" },
-          { "name": "Titanium Silver", "sku": "SM-S9480ZKOSGY" },
-          { "name": "Titanium Blue", "sku": "SM-S9480ZKODGY" }
+          {
+            "name": "Black",
+            "sku": "SM-S9480ZKOTGY",
+            "gift1": "S26U_Gift001",
+            "gift2": "S26U_Gift002",
+            "gift3": "S26U_Gift003"
+          },
+          {
+            "name": "Sky Blue",
+            "sku": "SM-S9480LBOTGY",
+            "gift1": "S26U_Gift001",
+            "gift2": "S26U_Gift002",
+            "gift3": "S26U_Gift003"
+          },
+          {
+            "name": "Cobalt Violet",
+            "sku": "SM-S9480ZVOTGY",
+            "gift1": "S26U_Gift001",
+            "gift2": "S26U_Gift002",
+            "gift3": "S26U_Gift003"
+          },
+          {
+            "name": "White",
+            "sku": "SM-S9480ZWOTGY",
+            "gift1": "S26U_Gift001",
+            "gift2": "S26U_Gift002",
+            "gift3": "S26U_Gift003"
+          },
+          {
+            "name": "Pink Gold",
+            "sku": "SM-S9480ZDOTGY",
+            "gift1": "S26U_Gift001",
+            "gift2": "S26U_Gift002",
+            "gift3": "S26U_Gift003"
+          },
+          {
+            "name": "Silver Shadow",
+            "sku": "SM-S9480ZSOTGY",
+            "gift1": "S26U_Gift001",
+            "gift2": "S26U_Gift002",
+            "gift3": "S26U_Gift003"
+          }
         ]
       },
       {
-        "storage": "1TB",
-        "price": 13798,
+        "storage": "256GB+12GB",
+        "price": 0,
         "colors": [
-          { "name": "Titanium Black", "sku": "SM-S9480ZKPTGY" },
-          { "name": "Titanium Grey", "sku": "SM-S9480ZKPAGY" },
-          { "name": "Titanium Silver", "sku": "SM-S9480ZKPSGY" },
-          { "name": "Titanium Blue", "sku": "SM-S9480ZKPDGY" }
+          {
+            "name": "Black",
+            "sku": "SM-S9480ZKITGY",
+            "gift1": "S26U_Gift001",
+            "gift2": "S26U_Gift002",
+            "gift3": "S26U_Gift003"
+          },
+          {
+            "name": "Sky Blue",
+            "sku": "SM-S9480LBITGY",
+            "gift1": "S26U_Gift001",
+            "gift2": "S26U_Gift002",
+            "gift3": "S26U_Gift003"
+          },
+          {
+            "name": "Cobalt Violet",
+            "sku": "SM-S9480ZVITGY",
+            "gift1": "S26U_Gift001",
+            "gift2": "S26U_Gift002",
+            "gift3": "S26U_Gift003"
+          },
+          {
+            "name": "White",
+            "sku": "SM-S9480ZWITGY",
+            "gift1": "S26U_Gift001",
+            "gift2": "S26U_Gift002",
+            "gift3": "S26U_Gift003"
+          },
+          {
+            "name": "Pink Gold",
+            "sku": "SM-S9480ZDITGY",
+            "gift1": "S26U_Gift001",
+            "gift2": "S26U_Gift002",
+            "gift3": "S26U_Gift003"
+          },
+          {
+            "name": "Silver Shadow",
+            "sku": "SM-S9480ZSITGY",
+            "gift1": "S26U_Gift001",
+            "gift2": "S26U_Gift002",
+            "gift3": "S26U_Gift003"
+          }
         ]
       }
     ]
   },
   {
-    "name": "Galaxy S25+",
+    "name": "Galaxy S26+",
     "storageOptions": [
       {
-        "storage": "256GB",
-        "price": 8598,
+        "storage": "512GB+12GB",
+        "price": 0,
         "colors": [
-          { "name": "Navy", "sku": "SM-S9470ZKITGY" },
-          { "name": "Silver Shadow", "sku": "SM-S9470ZKIAGY" },
-          { "name": "Mint", "sku": "SM-S9470ZKISGY" }
+          {
+            "name": "Black",
+            "sku": "SM-S9470ZKOTGY",
+            "gift1": "S26P_Gift001",
+            "gift2": "S26P_Gift002",
+            "gift3": "S26P_Gift003"
+          },
+          {
+            "name": "Sky Blue",
+            "sku": "SM-S9470LBOTGY",
+            "gift1": "S26P_Gift001",
+            "gift2": "S26P_Gift002",
+            "gift3": "S26P_Gift003"
+          },
+          {
+            "name": "Cobalt Violet",
+            "sku": "SM-S9470ZVOTGY",
+            "gift1": "S26P_Gift001",
+            "gift2": "S26P_Gift002",
+            "gift3": "S26P_Gift003"
+          },
+          {
+            "name": "White",
+            "sku": "SM-S9470ZWOTGY",
+            "gift1": "S26P_Gift001",
+            "gift2": "S26P_Gift002",
+            "gift3": "S26P_Gift003"
+          },
+          {
+            "name": "Pink Gold",
+            "sku": "SM-S9470ZDOTGY",
+            "gift1": "S26P_Gift001",
+            "gift2": "S26P_Gift002",
+            "gift3": "S26P_Gift003"
+          }
         ]
       },
       {
-        "storage": "512GB",
-        "price": 9798,
+        "storage": "256GB+12GB",
+        "price": 0,
         "colors": [
-          { "name": "Navy", "sku": "SM-S9470ZKOTGY" },
-          { "name": "Silver Shadow", "sku": "SM-S9470ZKOAGY" },
-          { "name": "Mint", "sku": "SM-S9470ZKOSGY" }
+          {
+            "name": "Silver Shadow",
+            "sku": "SM-S9470ZSOTGY",
+            "gift1": "S26P_Gift001",
+            "gift2": "S26P_Gift002",
+            "gift3": "S26P_Gift003"
+          },
+          {
+            "name": "Black",
+            "sku": "SM-S9470ZKITGY",
+            "gift1": "S26P_Gift001",
+            "gift2": "S26P_Gift002",
+            "gift3": "S26P_Gift003"
+          },
+          {
+            "name": "Sky Blue",
+            "sku": "SM-S9470LBITGY",
+            "gift1": "S26P_Gift001",
+            "gift2": "S26P_Gift002",
+            "gift3": "S26P_Gift003"
+          }
         ]
       }
     ]
   },
   {
-    "name": "Galaxy S25",
+    "name": "Galaxy S26",
     "storageOptions": [
       {
-        "storage": "256GB",
-        "price": 6898,
+        "storage": "512GB+12GB",
+        "price": 0,
         "colors": [
-          { "name": "Navy", "sku": "SM-S9420ZKOTGY" },
-          { "name": "Silver Shadow", "sku": "SM-S9420ZKOAGY" },
-          { "name": "Mint", "sku": "SM-S9420ZKOSGY" }
+          {
+            "name": "Black",
+            "sku": "SM-S9420ZKPTGY",
+            "gift1": "S26B_Gift001",
+            "gift2": "S26B_Gift002",
+            "gift3": "S26B_Gift003"
+          },
+          {
+            "name": "Sky Blue",
+            "sku": "SM-S9420LBPTGY",
+            "gift1": "S26B_Gift001",
+            "gift2": "S26B_Gift002",
+            "gift3": "S26B_Gift003"
+          },
+          {
+            "name": "Cobalt Violet",
+            "sku": "SM-S9420ZVPTGY",
+            "gift1": "S26B_Gift001",
+            "gift2": "S26B_Gift002",
+            "gift3": "S26B_Gift003"
+          },
+          {
+            "name": "White",
+            "sku": "SM-S9420ZWPTGY",
+            "gift1": "S26B_Gift001",
+            "gift2": "S26B_Gift002",
+            "gift3": "S26B_Gift003"
+          },
+          {
+            "name": "Pink Gold",
+            "sku": "SM-S9420ZDPTGY",
+            "gift1": "S26B_Gift001",
+            "gift2": "S26B_Gift002",
+            "gift3": "S26B_Gift003"
+          },
+          {
+            "name": "Silver Shadow",
+            "sku": "SM-S9420ZSPTGY",
+            "gift1": "S26B_Gift001",
+            "gift2": "S26B_Gift002",
+            "gift3": "S26B_Gift003"
+          }
         ]
       },
       {
-        "storage": "512GB",
-        "price": 8098,
+        "storage": "256GB+12GB",
+        "price": 0,
         "colors": [
-          { "name": "Navy", "sku": "SM-S9420ZKPTGY" },
-          { "name": "Silver Shadow", "sku": "SM-S9420ZKPAGY" },
-          { "name": "Mint", "sku": "SM-S9420ZKPSGY" }
-        ]
-      }
-    ]
-  },
-  {
-    "name": "Galaxy Z Flip7",
-    "storageOptions": [
-      {
-        "storage": "256GB",
-        "price": 7998,
-        "colors": [
-          { "name": "Graphite", "sku": "SM-F7660DBATGY" },
-          { "name": "Blue", "sku": "SM-F7660DBAAGY" },
-          { "name": "Mint", "sku": "SM-F7660DBASGY" }
-        ]
-      },
-      {
-        "storage": "512GB",
-        "price": 8698,
-        "colors": [
-          { "name": "Graphite", "sku": "SM-F7660DBETGY" },
-          { "name": "Blue", "sku": "SM-F7660DBEAGY" },
-          { "name": "Mint", "sku": "SM-F7660DBESGY" }
+          {
+            "name": "Black",
+            "sku": "SM-S9420ZKOTGY",
+            "gift1": "S26B_Gift001",
+            "gift2": "S26B_Gift002",
+            "gift3": "S26B_Gift003"
+          }
         ]
       }
     ]
@@ -107,30 +284,164 @@
     "name": "Galaxy Z Fold7",
     "storageOptions": [
       {
-        "storage": "256GB",
-        "price": 15198,
+        "storage": "1TB+16GB",
+        "price": 0,
         "colors": [
-          { "name": "Graphite", "sku": "SM-F9660DBDTGY" },
-          { "name": "Silver", "sku": "SM-F9660DBDAGY" },
-          { "name": "Blue", "sku": "SM-F9660DBDSGY" }
+          {
+            "name": "Blue Shadow",
+            "sku": "SM-F9660DBHTGY",
+            "gift1": "Fold7_Gift001",
+            "gift2": "Fold7_Gift002",
+            "gift3": "Fold7_Gift003"
+          },
+          {
+            "name": "Jetblack",
+            "sku": "SM-F9660ZKHTGY",
+            "gift1": "Fold7_Gift001",
+            "gift2": "Fold7_Gift002",
+            "gift3": "Fold7_Gift003"
+          }
         ]
       },
       {
-        "storage": "512GB",
-        "price": 15998,
+        "storage": "512GB+12GB",
+        "price": 0,
         "colors": [
-          { "name": "Graphite", "sku": "SM-F9660DBGTGY" },
-          { "name": "Silver", "sku": "SM-F9660DBGAGY" },
-          { "name": "Blue", "sku": "SM-F9660DBGSGY" }
+          {
+            "name": "Blue Shadow",
+            "sku": "SM-F9660DBGTGY",
+            "gift1": "Fold7_Gift001",
+            "gift2": "Fold7_Gift002",
+            "gift3": "Fold7_Gift003"
+          },
+          {
+            "name": "Silver Shadow",
+            "sku": "SM-F9660ZSGTGY",
+            "gift1": "Fold7_Gift001",
+            "gift2": "Fold7_Gift002",
+            "gift3": "Fold7_Gift003"
+          },
+          {
+            "name": "Jetblack",
+            "sku": "SM-F9660ZKGTGY",
+            "gift1": "Fold7_Gift001",
+            "gift2": "Fold7_Gift002",
+            "gift3": "Fold7_Gift003"
+          },
+          {
+            "name": "Mint",
+            "sku": "SM-F9660LGGTGY",
+            "gift1": "Fold7_Gift001",
+            "gift2": "Fold7_Gift002",
+            "gift3": "Fold7_Gift003"
+          }
         ]
       },
       {
-        "storage": "1TB",
-        "price": 16798,
+        "storage": "256GB+12GB",
+        "price": 0,
         "colors": [
-          { "name": "Graphite", "sku": "SM-F9660DBHTGY" },
-          { "name": "Silver", "sku": "SM-F9660DBHAGY" },
-          { "name": "Blue", "sku": "SM-F9660DBHSGY" }
+          {
+            "name": "Blue Shadow",
+            "sku": "SM-F9660DBDTGY",
+            "gift1": "Fold7_Gift001",
+            "gift2": "Fold7_Gift002",
+            "gift3": "Fold7_Gift003"
+          },
+          {
+            "name": "Silver Shadow",
+            "sku": "SM-F9660ZSDTGY",
+            "gift1": "Fold7_Gift001",
+            "gift2": "Fold7_Gift002",
+            "gift3": "Fold7_Gift003"
+          },
+          {
+            "name": "Jetblack",
+            "sku": "SM-F9660ZKDTGY",
+            "gift1": "Fold7_Gift001",
+            "gift2": "Fold7_Gift002",
+            "gift3": "Fold7_Gift003"
+          },
+          {
+            "name": "Mint",
+            "sku": "SM-F9660LGDTGY",
+            "gift1": "Fold7_Gift001",
+            "gift2": "Fold7_Gift002",
+            "gift3": "Fold7_Gift003"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Galaxy Z Flip7",
+    "storageOptions": [
+      {
+        "storage": "512GB+12GB",
+        "price": 0,
+        "colors": [
+          {
+            "name": "Blue Shadow",
+            "sku": "SM-F7660DBETGY",
+            "gift1": "Flip7_Gift001",
+            "gift2": "Flip7_Gift002",
+            "gift3": "Flip7_Gift003"
+          },
+          {
+            "name": "Jetblack",
+            "sku": "SM-F7660ZKETGY",
+            "gift1": "Flip7_Gift001",
+            "gift2": "Flip7_Gift002",
+            "gift3": "Flip7_Gift003"
+          },
+          {
+            "name": "Coralred",
+            "sku": "SM-F7660ZRETGY",
+            "gift1": "Flip7_Gift001",
+            "gift2": "Flip7_Gift002",
+            "gift3": "Flip7_Gift003"
+          },
+          {
+            "name": "Mint",
+            "sku": "SM-F7660LGETGY",
+            "gift1": "Flip7_Gift001",
+            "gift2": "Flip7_Gift002",
+            "gift3": "Flip7_Gift003"
+          }
+        ]
+      },
+      {
+        "storage": "256GB+12GB",
+        "price": 0,
+        "colors": [
+          {
+            "name": "Blue Shadow",
+            "sku": "SM-F7660DBATGY",
+            "gift1": "Flip7_Gift001",
+            "gift2": "Flip7_Gift002",
+            "gift3": "Flip7_Gift003"
+          },
+          {
+            "name": "Jetblack",
+            "sku": "SM-F7660ZKATGY",
+            "gift1": "Flip7_Gift001",
+            "gift2": "Flip7_Gift002",
+            "gift3": "Flip7_Gift003"
+          },
+          {
+            "name": "Coralred",
+            "sku": "SM-F7660ZRATGY",
+            "gift1": "Flip7_Gift001",
+            "gift2": "Flip7_Gift002",
+            "gift3": "Flip7_Gift003"
+          },
+          {
+            "name": "Mint",
+            "sku": "SM-F7660LGATGY",
+            "gift1": "Flip7_Gift001",
+            "gift2": "Flip7_Gift002",
+            "gift3": "Flip7_Gift003"
+          }
         ]
       }
     ]
