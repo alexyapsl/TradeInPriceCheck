@@ -546,7 +546,6 @@
             const storageIdx = storageSelect ? storageSelect.value : 0;
             const storageOpt = product.storageOptions[parseInt(storageIdx)];
             
-            const anyInStock = storageOpt.colors && storageOpt.colors.some(c => c.inStock !== false);
             if (!storageOpt.colors || storageOpt.colors.length === 0 || !anyInStock) {
                 // No color options or everything out of stock
                 alert('This storage option is currently out of stock.');
