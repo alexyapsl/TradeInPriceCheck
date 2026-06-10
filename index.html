@@ -190,6 +190,34 @@
                         <!-- Populated by JS -->
                     </div>
 
+                    <!-- Bank Promotion -->
+                    <div class="mt-6 px-1">
+                        <div class="font-semibold text-base text-gray-900">Bank Promotion</div>
+                        <div class="text-xs text-gray-500 mb-3">Select your credit card issuing bank to see if you can enjoy additional offer</div>
+                        
+                        <div class="flex items-center gap-4">
+                            <!-- None / Default -->
+                            <button onclick="selectBankPromotion('none')" id="bank-none"
+                                    class="w-12 h-12 rounded-2xl border-2 flex items-center justify-center transition-all border-gray-300 bg-gray-100 hover:border-gray-400">
+                                <i class="fa-solid fa-credit-card text-gray-400 text-xl"></i>
+                            </button>
+                            
+                            <!-- HSBC -->
+                            <button onclick="selectBankPromotion('hsbc')" id="bank-hsbc"
+                                    class="w-12 h-12 rounded-2xl border-2 flex items-center justify-center transition-all border-gray-200 overflow-hidden hover:border-[#007AFF]">
+                                <img src="https://companieslogo.com/img/orig/HSBC.D-f17719c5.png?t=1720244493" 
+                                     class="w-10 h-10 object-contain" alt="HSBC">
+                            </button>
+                            
+                            <!-- Bank of China -->
+                            <button onclick="selectBankPromotion('boc')" id="bank-boc"
+                                    class="w-12 h-12 rounded-2xl border-2 flex items-center justify-center transition-all border-gray-200 overflow-hidden hover:border-[#007AFF]">
+                                <img src="https://companieslogo.com/img/orig/BOCXF-4e3c6c9f.png?t=1720244493" 
+                                     class="w-10 h-10 object-contain" alt="Bank of China">
+                            </button>
+                        </div>
+                    </div>
+
                     <!-- Color Selection Modal -->
                     <div id="color-modal" class="hidden fixed inset-0 bg-black/50 z-[100] flex items-end lg:items-center justify-center">
                         <div class="bg-white w-full lg:w-[420px] lg:rounded-3xl lg:m-4 rounded-t-3xl p-6">
@@ -426,6 +454,12 @@
                             <span class="font-medium text-emerald-600">−$${tradeInValue.toLocaleString()}</span>
                         </div>
                         
+                        <!-- Bank promotion rebate line -->
+                        <div class="flex justify-between bank-rebate-row ${selectedBank === 'hsbc' || selectedBank === 'boc' ? '' : 'hidden'}" data-product-idx="${originalIdx}">
+                            <span class="text-emerald-600">Credit card rebate</span>
+                            <span class="font-medium text-emerald-600 bank-rebate-amount"></span>
+                        </div>
+                        
                         <div class="pt-3 border-t border-gray-200 flex justify-between items-baseline">
                             <span class="font-medium text-gray-900">You pay after trade-in</span>
                             <span class="text-3xl font-semibold tabular-nums text-gray-900 recommended-you-pay">$${youPay.toLocaleString()}</span>
@@ -443,7 +477,28 @@
                 `;
                 
                 container.appendChild(card);
+                
+                // Apply current bank rebate to the newly rendered card
+                applyBankRebateToCard(card, originalIdx);
             });
+        }
+        
+        function applyBankRebateToCard(card, productIdx) {
+            const rebateRow = card.querySelector('.bank-rebate-row');
+            if (!rebateRow) return;
+            
+            const amountEl = rebateRow.querySelector('.bank-rebate-amount');
+            if (!amountEl) return;
+            
+            if (selectedBank === 'hsbc') {
+                rebateRow.classList.remove('hidden');
+                amountEl.textContent = '−$500';
+            } else if (selectedBank === 'boc') {
+                rebateRow.classList.remove('hidden');
+                amountEl.textContent = '−$700';
+            } else {
+                rebateRow.classList.add('hidden');
+            }
         }
         
         function updateRecommendedPrice(productIdx, storageIdx, tradeInValue, selectEl) {
@@ -465,6 +520,9 @@
             // Clear any previously stored color selection when storage changes
             delete card.dataset.selectedColorSku;
             delete card.dataset.selectedColorName;
+            
+            // Re-apply bank rebate line after price update
+            applyBankRebateToCard(card, productIdx);
         }
 
         function detectIPhoneModel(ua) {
@@ -543,6 +601,30 @@
         let selectedColorSku = null;
         let selectedGiftSku = null;
         let pendingMagicUrl = null;
+        let selectedBank = 'none';  // 'none' | 'hsbc' | 'boc'
+
+        function selectBankPromotion(bank) {
+            selectedBank = bank;
+            
+            // Update visual state of bank buttons
+            document.querySelectorAll('[id^="bank-"]').forEach(el => {
+                el.classList.remove('!border-[#007AFF]', 'ring-2', 'ring-[#007AFF]/30');
+                el.classList.add('border-gray-200');
+            });
+            
+            const activeBtn = document.getElementById(`bank-${bank}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('border-gray-200');
+                activeBtn.classList.add('!border-[#007AFF]', 'ring-2', 'ring-[#007AFF]/30');
+            }
+            
+            // Re-render recommendations to show/hide rebates
+            const tradeInValEl = document.getElementById('trade-in-value');
+            if (tradeInValEl && tradeInValEl.textContent !== '$0') {
+                const tradeInValue = parseInt(tradeInValEl.textContent.replace(/[^0-9]/g, '')) || 0;
+                renderRecommendedProducts(tradeInValue);
+            }
+        }
 
         // Gift mapping (from gift-set sheet)
         const giftMap = {
@@ -645,13 +727,15 @@
             return map[colorName] || '#9ca3af';
         }
 
-        function closeColorModal() {
+        function closeColorModal(keepState = false) {
             const modal = document.getElementById('color-modal');
             modal.classList.remove('flex');
             modal.classList.add('hidden');
-            selectedColorSku = null;
-            currentModalProductIdx = null;
-            currentModalCard = null;
+            if (!keepState) {
+                selectedColorSku = null;
+                currentModalProductIdx = null;
+                currentModalCard = null;
+            }
         }
 
         function confirmColorSelection() {
@@ -662,12 +746,7 @@
             const savedCard = currentModalCard;
             const savedSku = selectedColorSku;
 
-            closeColorModal();
-
-            // Restore before calling gift modal
-            currentModalProductIdx = savedProductIdx;
-            currentModalCard = savedCard;
-            selectedColorSku = savedSku;
+            closeColorModal(true);  // keep state for gift modal
 
             showGiftModal();
         }
