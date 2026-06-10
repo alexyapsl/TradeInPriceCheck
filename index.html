@@ -420,6 +420,10 @@
                 const shouldShow = !allowedRecs || allowedRecs.some(r => (r||'').trim().toLowerCase() === (product.name||'').trim().toLowerCase());
                 if (!shouldShow) return;
 
+                // Reject product completely if NO storage option has a real price
+                const hasAnyPrice = product.storageOptions.some(opt => opt.price > 0);
+                if (!hasAnyPrice) return;
+
                 // Pick the largest storage tier that has a real price (>0) as the initial display
                 let initialStorage = product.storageOptions.find(opt => opt.price > 0) || product.storageOptions[0];
                 let currentPrice = initialStorage.price;
@@ -600,6 +604,11 @@
             }
             
             // If brand detected and exists in our devices, preselect it
+            if (!detectedBrand) {
+                // UA gave no clear brand → default to Samsung
+                detectedBrand = 'Samsung';
+            }
+
             if (detectedBrand && Array.from(brandSelect.options).some(o => o.value === detectedBrand)) {
                 brandSelect.value = detectedBrand;
                 updateModels();
