@@ -89,6 +89,25 @@
         .nav-link:hover {
             color: #007AFF;
         }
+
+        /* Keep step-number circles perfectly round on narrow screens */
+        .step-circle {
+            width: 26px;
+            height: 26px;
+            min-width: 26px;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 375px) {
+            .step-circle {
+                width: 22px;
+                height: 22px;
+                min-width: 22px;
+            }
+            #progress-bar span, #progress-bar .text-sm {
+                font-size: 11px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -128,21 +147,21 @@
                     <div class="flex items-center gap-x-8">
                         <!-- Step 1 -->
                         <div id="progress-step-1" class="flex items-center gap-x-2 text-gray-400">
-                            <div class="w-5 h-5 rounded-full border flex items-center justify-center">
+                            <div class="step-circle w-5 h-5 rounded-full border flex items-center justify-center flex-shrink-0">
                                 <i class="fa-solid fa-check text-xs"></i>
                             </div>
                             <span class="font-medium">Step 1: Device selected</span>
                         </div>
                         <!-- Step 2 -->
                         <div id="progress-step-2" class="flex items-center gap-x-2 text-gray-400">
-                            <div class="w-5 h-5 rounded-full border flex items-center justify-center">
+                            <div class="step-circle w-5 h-5 rounded-full border flex items-center justify-center flex-shrink-0">
                                 <i class="fa-solid fa-check text-xs"></i>
                             </div>
                             <span class="font-medium">Step 2: Bank chosen</span>
                         </div>
                         <!-- Step 3 -->
                         <div id="progress-step-3" class="flex items-center gap-x-2 text-gray-400">
-                            <div class="w-5 h-5 rounded-full border flex items-center justify-center">
+                            <div class="step-circle w-5 h-5 rounded-full border flex items-center justify-center flex-shrink-0">
                                 <i class="fa-solid fa-check text-xs"></i>
                             </div>
                             <span class="font-medium">Step 3: Ready to buy</span>
@@ -159,7 +178,7 @@
                 <div class="bg-white rounded-3xl p-8 border border-gray-200 shadow-sm">
                     <div class="flex items-center gap-x-3 mb-6">
                         <div class="flex items-center gap-x-3">
-                            <div class="w-7 h-7 rounded-full bg-[#007AFF] text-white flex items-center justify-center text-xs font-semibold">1</div>
+                            <div class="step-circle w-7 h-7 rounded-full bg-[#007AFF] text-white flex items-center justify-center text-xs font-semibold">1</div>
                             <div class="font-semibold text-xl text-gray-900">Your current device</div>
                         </div>
                         <div class="text-sm text-gray-500">Hong Kong / Macau only</div>
@@ -213,7 +232,7 @@
                     <!-- Bank Promotion -->
                     <div class="mb-6 px-1">
                         <div class="flex items-center gap-x-3 mb-1">
-                            <div class="w-7 h-7 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center text-xs font-semibold">2</div>
+                            <div class="step-circle w-7 h-7 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center text-xs font-semibold">2</div>
                             <div class="font-semibold text-base text-gray-900">Bank Promotion</div>
                         </div>
                         <div class="text-xs text-gray-500 mb-3 ml-10">Select your credit card issuing bank to see if you can enjoy additional offer</div>
@@ -249,7 +268,7 @@
 
                     <div class="mb-4 px-1">
                         <div class="flex items-center gap-x-3 mb-1">
-                            <div class="w-7 h-7 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center text-xs font-semibold">3</div>
+                            <div class="step-circle w-7 h-7 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center text-xs font-semibold">3</div>
                             <div class="section-title">Recommended upgrades</div>
                         </div>
                         <div class="text-xs text-gray-500 ml-10">Popular choices with your trade-in</div>
