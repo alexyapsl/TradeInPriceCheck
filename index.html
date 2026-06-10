@@ -188,18 +188,16 @@
                         
                         <div class="flex items-center gap-6">
                             <!-- None / Default -->
-                            <button onclick="selectBankPromotion('none')" id="bank-none"
-                                    class="flex flex-col items-center gap-1">
-                                <div class="w-12 h-12 rounded-2xl border-2 flex items-center justify-center transition-all border-gray-300 bg-gray-100 hover:border-gray-400">
+                            <button onclick="selectBankPromotion('none')" class="flex flex-col items-center gap-1">
+                                <div id="bank-none-icon" class="bank-icon w-12 h-12 rounded-2xl border-2 flex items-center justify-center transition-all border-gray-300 bg-gray-100">
                                     <i class="fa-solid fa-credit-card text-gray-400 text-xl"></i>
                                 </div>
                                 <span class="text-[10px] text-gray-500">None</span>
                             </button>
                             
                             <!-- HSBC -->
-                            <button onclick="selectBankPromotion('hsbc')" id="bank-hsbc"
-                                    class="flex flex-col items-center gap-1">
-                                <div class="w-12 h-12 rounded-2xl border-2 flex items-center justify-center transition-all border-gray-200 overflow-hidden hover:border-[#007AFF]">
+                            <button onclick="selectBankPromotion('hsbc')" class="flex flex-col items-center gap-1">
+                                <div id="bank-hsbc-icon" class="bank-icon w-12 h-12 rounded-2xl border-2 flex items-center justify-center transition-all border-gray-200 overflow-hidden">
                                     <img src="https://create.hsbc/content/dam/brandhub/brand/ld-history/hexagon_1192x671.jpg" 
                                          class="w-12 h-12 object-contain" alt="HSBC">
                                 </div>
@@ -207,9 +205,8 @@
                             </button>
                             
                             <!-- Bank of China -->
-                            <button onclick="selectBankPromotion('boc')" id="bank-boc"
-                                    class="flex flex-col items-center gap-1">
-                                <div class="w-12 h-12 rounded-2xl border-2 flex items-center justify-center transition-all border-gray-200 overflow-hidden hover:border-[#007AFF]">
+                            <button onclick="selectBankPromotion('boc')" class="flex flex-col items-center gap-1">
+                                <div id="bank-boc-icon" class="bank-icon w-12 h-12 rounded-2xl border-2 flex items-center justify-center transition-all border-gray-200 overflow-hidden">
                                     <img src="https://companieslogo.com/img/orig/2388.HK_BIG-9ff8bfa3.png?t=1720244490" 
                                          class="w-12 h-12 object-contain" alt="Bank of China">
                                 </div>
@@ -644,16 +641,17 @@
         function selectBankPromotion(bank) {
             selectedBank = bank;
             
-            // Update visual state of bank buttons
-            document.querySelectorAll('[id^="bank-"]').forEach(el => {
+            // Clear highlight from all bank icons (inner divs)
+            document.querySelectorAll('.bank-icon').forEach(el => {
                 el.classList.remove('!border-[#007AFF]', 'ring-2', 'ring-[#007AFF]/30');
                 el.classList.add('border-gray-200');
             });
             
-            const activeBtn = document.getElementById(`bank-${bank}`);
-            if (activeBtn) {
-                activeBtn.classList.remove('border-gray-200');
-                activeBtn.classList.add('!border-[#007AFF]', 'ring-2', 'ring-[#007AFF]/30');
+            // Highlight the selected one
+            const activeIcon = document.getElementById(`bank-${bank}-icon`);
+            if (activeIcon) {
+                activeIcon.classList.remove('border-gray-200');
+                activeIcon.classList.add('!border-[#007AFF]', 'ring-2', 'ring-[#007AFF]/30');
             }
             
             // Re-render recommendations to show/hide rebates
