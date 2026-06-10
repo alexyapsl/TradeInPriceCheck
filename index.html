@@ -121,19 +121,48 @@
             <p class="text-xl text-gray-600 mt-3 max-w-md mx-auto">Instant value for your current phone. Upgrade today.</p>
         </div>
 
+        <!-- Sticky Progress Bar -->
+        <div id="progress-bar" class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-gray-200 py-3 mb-6 hidden">
+            <div class="max-w-6xl mx-auto px-6">
+                <div class="flex items-center justify-between text-sm">
+                    <div class="flex items-center gap-x-8">
+                        <!-- Step 1 -->
+                        <div id="progress-step-1" class="flex items-center gap-x-2 text-gray-400">
+                            <div class="w-5 h-5 rounded-full border flex items-center justify-center">
+                                <i class="fa-solid fa-check text-xs"></i>
+                            </div>
+                            <span class="font-medium">Step 1: Device selected</span>
+                        </div>
+                        <!-- Step 2 -->
+                        <div id="progress-step-2" class="flex items-center gap-x-2 text-gray-400">
+                            <div class="w-5 h-5 rounded-full border flex items-center justify-center">
+                                <i class="fa-solid fa-check text-xs"></i>
+                            </div>
+                            <span class="font-medium">Step 2: Bank chosen</span>
+                        </div>
+                        <!-- Step 3 -->
+                        <div id="progress-step-3" class="flex items-center gap-x-2 text-gray-400">
+                            <div class="w-5 h-5 rounded-full border flex items-center justify-center">
+                                <i class="fa-solid fa-check text-xs"></i>
+                            </div>
+                            <span class="font-medium">Step 3: Ready to buy</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
             <!-- LEFT: Old Device Selection -->
             <div class="lg:col-span-7">
                 <div class="bg-white rounded-3xl p-8 border border-gray-200 shadow-sm">
                     <div class="flex items-center gap-x-3 mb-6">
-                        <div class="w-9 h-9 bg-blue-100 rounded-2xl flex items-center justify-center">
-                            <i class="fa-solid fa-mobile-alt text-[#007AFF] text-lg"></i>
-                        </div>
-                        <div>
+                        <div class="flex items-center gap-x-3">
+                            <div class="w-7 h-7 rounded-full bg-[#007AFF] text-white flex items-center justify-center text-xs font-semibold">1</div>
                             <div class="font-semibold text-xl text-gray-900">Your current device</div>
-                            <div class="text-sm text-gray-500">Hong Kong / Macau only</div>
                         </div>
+                        <div class="text-sm text-gray-500">Hong Kong / Macau only</div>
                     </div>
 
                     <div class="space-y-6">
@@ -183,8 +212,11 @@
                 <div class="sticky top-6">
                     <!-- Bank Promotion -->
                     <div class="mb-6 px-1">
-                        <div class="font-semibold text-base text-gray-900">Bank Promotion</div>
-                        <div class="text-xs text-gray-500 mb-3">Select your credit card issuing bank to see if you can enjoy additional offer</div>
+                        <div class="flex items-center gap-x-3 mb-1">
+                            <div class="w-7 h-7 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center text-xs font-semibold">2</div>
+                            <div class="font-semibold text-base text-gray-900">Bank Promotion</div>
+                        </div>
+                        <div class="text-xs text-gray-500 mb-3 ml-10">Select your credit card issuing bank to see if you can enjoy additional offer</div>
                         
                         <div class="flex items-center gap-6">
                             <!-- None / Default -->
@@ -216,8 +248,11 @@
                     </div>
 
                     <div class="mb-4 px-1">
-                        <div class="section-title mb-2">Recommended upgrades</div>
-                        <div class="text-sm text-gray-500">Popular choices with your trade-in</div>
+                        <div class="flex items-center gap-x-3 mb-1">
+                            <div class="w-7 h-7 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center text-xs font-semibold">3</div>
+                            <div class="section-title">Recommended upgrades</div>
+                        </div>
+                        <div class="text-xs text-gray-500 ml-10">Popular choices with your trade-in</div>
                     </div>
 
                     <div id="recommended-products" class="space-y-3">
@@ -390,6 +425,7 @@
                 priceEl.textContent = '$' + device.trade_in_price.toLocaleString();
                 resultSection.classList.remove('hidden');
                 renderRecommendedProducts(device.trade_in_price);
+                updateProgressBar();
             }
         }
 
@@ -645,6 +681,55 @@
         let pendingMagicUrl = null;
         let selectedBank = 'none';  // 'none' | 'hsbc' | 'boc'
 
+        function updateProgressBar() {
+            const bar = document.getElementById('progress-bar');
+            const step1 = document.getElementById('progress-step-1');
+            const step2 = document.getElementById('progress-step-2');
+            const step3 = document.getElementById('progress-step-3');
+
+            if (!bar || !step1 || !step2 || !step3) return;
+
+            bar.classList.remove('hidden');
+            bar.classList.add('flex');
+
+            const tradeInVal = document.getElementById('trade-in-value');
+            const hasStep1 = tradeInVal && tradeInVal.textContent !== '$0';
+            const hasStep2 = selectedBank !== 'none';
+
+            // Step 1
+            if (hasStep1) {
+                step1.classList.remove('text-gray-400');
+                step1.classList.add('text-emerald-600');
+                step1.querySelector('div').classList.add('!border-emerald-600', '!bg-emerald-600', '!text-white');
+            } else {
+                step1.classList.add('text-gray-400');
+                step1.classList.remove('text-emerald-600');
+                step1.querySelector('div').classList.remove('!border-emerald-600', '!bg-emerald-600', '!text-white');
+            }
+
+            // Step 2
+            if (hasStep2) {
+                step2.classList.remove('text-gray-400');
+                step2.classList.add('text-emerald-600');
+                step2.querySelector('div').classList.add('!border-emerald-600', '!bg-emerald-600', '!text-white');
+            } else {
+                step2.classList.add('text-gray-400');
+                step2.classList.remove('text-emerald-600');
+                step2.querySelector('div').classList.remove('!border-emerald-600', '!bg-emerald-600', '!text-white');
+            }
+
+            // Step 3
+            if (hasStep1 && hasStep2) {
+                step3.classList.remove('text-gray-400');
+                step3.classList.add('text-emerald-600');
+                step3.querySelector('div').classList.add('!border-emerald-600', '!bg-emerald-600', '!text-white');
+            } else {
+                step3.classList.add('text-gray-400');
+                step3.classList.remove('text-emerald-600');
+                step3.querySelector('div').classList.remove('!border-emerald-600', '!bg-emerald-600', '!text-white');
+            }
+        }
+
         function selectBankPromotion(bank) {
             selectedBank = bank;
             
@@ -667,6 +752,8 @@
                 const tradeInValue = parseInt(tradeInValEl.textContent.replace(/[^0-9]/g, '')) || 0;
                 renderRecommendedProducts(tradeInValue);
             }
+
+            updateProgressBar();
         }
 
         // Gift mapping (from gift-set sheet)
