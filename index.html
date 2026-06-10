@@ -886,6 +886,8 @@
             loadDevices().then(() => {
                 // Run UA detection after devices are loaded
                 setTimeout(detectAndPreselectFromUA, 100);
+                // Highlight default bank selection (None)
+                setTimeout(() => selectBankPromotion(selectedBank), 150);
             });
         }
     </script>
