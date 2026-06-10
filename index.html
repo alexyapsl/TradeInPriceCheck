@@ -519,10 +519,10 @@
             });
         }
         
-        function getBankRebateAmount() {
-            if (selectedBank === 'hsbc') return 500;
-            if (selectedBank === 'boc') return 700;
-            return 0;
+        function getBankRebateAmount(originalPrice = 0) {
+            if (!selectedBank || selectedBank === 'none') return 0;
+            const res = calculateBankRebate(originalPrice, selectedBank);
+            return res.totalRebate;
         }
         
         function applyBankRebateToCard(card, productIdx) {
@@ -541,18 +541,37 @@
                 return;
             }
             
-            const rebate = getBankRebateAmount();
             const tradeInValue = parseInt(card.dataset.tradeInValue) || 0;
             const basePrice = parseInt(priceEl.dataset.basePrice) || 0;
+
+            // Calculate accurate rebate based on this product's price
+            const bankCalc = (selectedBank && selectedBank !== 'none')
+                ? calculateBankRebate(basePrice, selectedBank)
+                : { percentRebate: 0, fixedRebate: 0, fixedName: null, totalRebate: 0 };
+
             const amountEl = rebateRow.querySelector('.bank-rebate-amount');
-            
-            if (selectedBank === 'hsbc' || selectedBank === 'boc') {
+
+            // Clear existing dynamic fixed-discount line if present
+            const existingFixed = card.querySelector('.fixed-discount-row');
+            if (existingFixed) existingFixed.remove();
+
+            if (selectedBank && selectedBank !== 'none' && bankCalc.totalRebate > 0) {
                 rebateRow.classList.remove('hidden');
-                amountEl.textContent = '−$' + rebate.toLocaleString();
-                
-                // Update the label and the final payable amount
+                amountEl.textContent = '−$' + bankCalc.percentRebate.toLocaleString();
+
+                // Add Fixed Discount line if defined
+                if (bankCalc.fixedRebate > 0 && bankCalc.fixedName) {
+                    const fixedRow = document.createElement('div');
+                    fixedRow.className = 'flex justify-between fixed-discount-row text-sm';
+                    fixedRow.innerHTML = `
+                        <span class="text-emerald-600">${bankCalc.fixedName}</span>
+                        <span class="font-medium text-emerald-600">−$${bankCalc.fixedRebate.toLocaleString()}</span>
+                    `;
+                    rebateRow.parentNode.insertBefore(fixedRow, rebateRow.nextSibling);
+                }
+
                 if (labelEl) labelEl.textContent = 'You pay after trade-in and bank rebate';
-                const newYouPay = Math.max(0, basePrice - tradeInValue - rebate);
+                const newYouPay = Math.max(0, basePrice - tradeInValue - bankCalc.totalRebate);
                 youPayEl.textContent = '$' + newYouPay.toLocaleString();
             } else {
                 rebateRow.classList.add('hidden');
@@ -693,6 +712,49 @@
             }
 
 
+        }
+
+        // Bank promotion rules (from Bank Promotion sheet)
+        const bankPromotionRules = {
+            "hsbc": {
+                tiers: [
+                    { max: 99999, percent: 0.04 }
+                ],
+                maximum: 400,
+                fixedDiscount: null
+            },
+            "boc": {
+                tiers: [
+                    { max: 2999,  percent: 0.00 },
+                    { max: 9999,  percent: 0.04 },
+                    { max: 14999, percent: 0.05 },
+                    { max: 99999, percent: 0.06 }
+                ],
+                maximum: 2000,
+                fixedDiscount: { name: "BOC Visa Card Weekend Offer", value: 200 }
+            }
+        };
+
+        function calculateBankRebate(originalPrice, bankKey) {
+            const rule = bankPromotionRules[bankKey];
+            if (!rule || originalPrice <= 0) return { percentRebate: 0, fixedRebate: 0, totalRebate: 0 };
+
+            // Find the correct tier
+            let percent = 0;
+            for (const tier of rule.tiers) {
+                if (originalPrice <= tier.max) {
+                    percent = tier.percent;
+                    break;
+                }
+            }
+
+            let percentRebate = Math.round(originalPrice * percent);
+            if (percentRebate > rule.maximum) percentRebate = rule.maximum;
+
+            const fixedRebate = rule.fixedDiscount ? rule.fixedDiscount.value : 0;
+            const totalRebate = percentRebate + fixedRebate;
+
+            return { percentRebate, fixedRebate, fixedName: rule.fixedDiscount?.name || null, totalRebate };
         }
 
         // Gift mapping (from gift-set sheet)
