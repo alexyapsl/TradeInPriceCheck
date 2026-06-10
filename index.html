@@ -140,37 +140,6 @@
             <p class="text-xl text-gray-600 mt-3 max-w-md mx-auto">Instant value for your current phone. Upgrade today.</p>
         </div>
 
-        <!-- Sticky Progress Bar -->
-        <div id="progress-bar" class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-gray-200 py-3 mb-6 hidden">
-            <div class="max-w-6xl mx-auto px-6">
-                <div class="flex items-center justify-between text-sm">
-                    <div class="flex items-center gap-x-8">
-                        <!-- Step 1 -->
-                        <div id="progress-step-1" class="flex items-center gap-x-2 text-gray-400">
-                            <div class="step-circle w-5 h-5 rounded-full border flex items-center justify-center flex-shrink-0">
-                                <i class="fa-solid fa-check text-xs"></i>
-                            </div>
-                            <span class="font-medium">Step 1: Device selected</span>
-                        </div>
-                        <!-- Step 2 -->
-                        <div id="progress-step-2" class="flex items-center gap-x-2 text-gray-400">
-                            <div class="step-circle w-5 h-5 rounded-full border flex items-center justify-center flex-shrink-0">
-                                <i class="fa-solid fa-check text-xs"></i>
-                            </div>
-                            <span class="font-medium">Step 2: Bank chosen</span>
-                        </div>
-                        <!-- Step 3 -->
-                        <div id="progress-step-3" class="flex items-center gap-x-2 text-gray-400">
-                            <div class="step-circle w-5 h-5 rounded-full border flex items-center justify-center flex-shrink-0">
-                                <i class="fa-solid fa-check text-xs"></i>
-                            </div>
-                            <span class="font-medium">Step 3: Ready to buy</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
             <!-- LEFT: Old Device Selection -->
@@ -444,7 +413,7 @@
                 priceEl.textContent = '$' + device.trade_in_price.toLocaleString();
                 resultSection.classList.remove('hidden');
                 renderRecommendedProducts(device.trade_in_price);
-                updateProgressBar();
+
             }
         }
 
@@ -700,49 +669,6 @@
         let pendingMagicUrl = null;
         let selectedBank = null;     // no default selection (user must click)
 
-        function updateProgressBar() {
-            const bar = document.getElementById('progress-bar');
-            const step1 = document.getElementById('progress-step-1');
-            const step2 = document.getElementById('progress-step-2');
-            const step3 = document.getElementById('progress-step-3');
-
-            if (!bar || !step1 || !step2 || !step3) return;
-
-            bar.classList.remove('hidden');
-            bar.classList.add('flex');
-
-            const tradeInVal = document.getElementById('trade-in-value');
-            const hasStep1 = tradeInVal && tradeInVal.textContent !== '$0';
-            const hasStep2 = selectedBank !== null;   // only completed when user actively clicks
-
-            // Step 1
-            if (hasStep1) {
-                step1.classList.remove('text-gray-400');
-                step1.classList.add('text-emerald-600');
-                step1.querySelector('div').classList.add('!border-emerald-600', '!bg-emerald-600', '!text-white');
-            } else {
-                step1.classList.add('text-gray-400');
-                step1.classList.remove('text-emerald-600');
-                step1.querySelector('div').classList.remove('!border-emerald-600', '!bg-emerald-600', '!text-white');
-            }
-
-            // Step 2
-            if (hasStep2) {
-                step2.classList.remove('text-gray-400');
-                step2.classList.add('text-emerald-600');
-                step2.querySelector('div').classList.add('!border-emerald-600', '!bg-emerald-600', '!text-white');
-            } else {
-                step2.classList.add('text-gray-400');
-                step2.classList.remove('text-emerald-600');
-                step2.querySelector('div').classList.remove('!border-emerald-600', '!bg-emerald-600', '!text-white');
-            }
-
-            // Step 3 is intentionally never auto-completed
-            step3.classList.add('text-gray-400');
-            step3.classList.remove('text-emerald-600');
-            step3.querySelector('div').classList.remove('!border-emerald-600', '!bg-emerald-600', '!text-white');
-        }
-
         function selectBankPromotion(bank) {
             selectedBank = bank;
             
@@ -766,7 +692,7 @@
                 renderRecommendedProducts(tradeInValue);
             }
 
-            updateProgressBar();
+
         }
 
         // Gift mapping (from gift-set sheet)
@@ -992,7 +918,7 @@
                 // Run UA detection after devices are loaded
                 setTimeout(detectAndPreselectFromUA, 100);
                 // Do NOT pre-select any bank — progress bar will remain in step-2 disabled state
-                setTimeout(updateProgressBar, 150);
+
             });
         }
     </script>
