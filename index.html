@@ -679,7 +679,7 @@
         let selectedColorSku = null;
         let selectedGiftSku = null;
         let pendingMagicUrl = null;
-        let selectedBank = 'none';  // 'none' | 'hsbc' | 'boc'
+        let selectedBank = null;     // no default selection (user must click)
 
         function updateProgressBar() {
             const bar = document.getElementById('progress-bar');
@@ -694,7 +694,7 @@
 
             const tradeInVal = document.getElementById('trade-in-value');
             const hasStep1 = tradeInVal && tradeInVal.textContent !== '$0';
-            const hasStep2 = selectedBank !== 'none';
+            const hasStep2 = selectedBank !== null;   // only completed when user actively clicks
 
             // Step 1
             if (hasStep1) {
@@ -718,16 +718,10 @@
                 step2.querySelector('div').classList.remove('!border-emerald-600', '!bg-emerald-600', '!text-white');
             }
 
-            // Step 3
-            if (hasStep1 && hasStep2) {
-                step3.classList.remove('text-gray-400');
-                step3.classList.add('text-emerald-600');
-                step3.querySelector('div').classList.add('!border-emerald-600', '!bg-emerald-600', '!text-white');
-            } else {
-                step3.classList.add('text-gray-400');
-                step3.classList.remove('text-emerald-600');
-                step3.querySelector('div').classList.remove('!border-emerald-600', '!bg-emerald-600', '!text-white');
-            }
+            // Step 3 is intentionally never auto-completed
+            step3.classList.add('text-gray-400');
+            step3.classList.remove('text-emerald-600');
+            step3.querySelector('div').classList.remove('!border-emerald-600', '!bg-emerald-600', '!text-white');
         }
 
         function selectBankPromotion(bank) {
@@ -978,8 +972,8 @@
             loadDevices().then(() => {
                 // Run UA detection after devices are loaded
                 setTimeout(detectAndPreselectFromUA, 100);
-                // Highlight default bank selection (None)
-                setTimeout(() => selectBankPromotion(selectedBank), 150);
+                // Do NOT pre-select any bank — progress bar will remain in step-2 disabled state
+                setTimeout(updateProgressBar, 150);
             });
         }
     </script>
