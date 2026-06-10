@@ -432,6 +432,7 @@
                 card.className = `bg-white border border-gray-200 rounded-3xl p-6 device-card`;
                 card.dataset.productIdx = originalIdx;
                 card.dataset.tradeInValue = tradeInValue;
+                if (isFullyOutOfStock) card.dataset.fullyOos = 'true';
                 
                 // Show all tiers; mark completely OOS tiers as disabled
                 const storageOptionsHTML = product.storageOptions.map((opt, idx) => {
@@ -507,6 +508,14 @@
             const priceEl = card.querySelector('.recommended-price');
             
             if (!rebateRow || !youPayEl || !priceEl) return;
+            
+            // Fully out-of-stock products must never show a numeric price
+            if (card.dataset.fullyOos === 'true') {
+                if (labelEl) labelEl.textContent = 'Status';
+                youPayEl.textContent = 'Out of Stock';
+                if (rebateRow) rebateRow.classList.add('hidden');
+                return;
+            }
             
             const rebate = getBankRebateAmount();
             const tradeInValue = parseInt(card.dataset.tradeInValue) || 0;
