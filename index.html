@@ -522,18 +522,17 @@
             card.dataset.selectedBank = bank;
 
             // Remove highlight from all bank buttons inside this card
-            card.querySelectorAll('.bank-btn').forEach(el => {
-                el.classList.remove('!border-[#007AFF]', 'ring-2', 'ring-[#007AFF]/30');
-                el.classList.add('border-gray-200');
+            // The visual border is on the inner div (the first child), not the outer button
+            card.querySelectorAll('.bank-btn > div').forEach(inner => {
+                inner.classList.remove('!border-[#007AFF]', 'ring-2', 'ring-[#007AFF]/30');
+                inner.classList.add('border-gray-200');
             });
 
-            // Highlight the clicked button
-            if (bank === 'none') {
-                btnEl.classList.remove('border-gray-200');
-                btnEl.classList.add('!border-[#007AFF]', 'ring-2', 'ring-[#007AFF]/30');
-            } else {
-                btnEl.classList.remove('border-gray-200');
-                btnEl.classList.add('!border-[#007AFF]', 'ring-2', 'ring-[#007AFF]/30');
+            // Highlight the inner visual element of the clicked button
+            const innerVisual = btnEl.querySelector('div');
+            if (innerVisual) {
+                innerVisual.classList.remove('border-gray-200');
+                innerVisual.classList.add('!border-[#007AFF]', 'ring-2', 'ring-[#007AFF]/30');
             }
 
             // Re-apply rebate using the card-local bank
@@ -615,6 +614,11 @@
             youPayEl.textContent = '$' + youPay.toLocaleString();
             savingsEl.textContent = 'You save $' + savings.toLocaleString();
             
+            // Update the base price attribute used by rebate calculation
+            if (priceEl) {
+                priceEl.dataset.basePrice = newPrice;
+            }
+
             // Clear any previously stored color selection when storage changes
             delete card.dataset.selectedColorSku;
             delete card.dataset.selectedColorName;
