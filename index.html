@@ -449,16 +449,26 @@
                             </div>
                             <!-- Per-card Bank Promotion -->
                             <div class="mt-3">
-                                <div class="text-[10px] text-gray-500 mb-1.5">Bank promotion</div>
-                                <div class="flex items-center gap-2">
-                                    <button type="button" onclick="selectCardBankPromotion(${originalIdx}, 'none', this)" class="bank-btn flex items-center justify-center w-8 h-8 rounded-xl border-2 transition-all border-gray-300 bg-gray-100" title="No bank promotion">
-                                        <i class="fa-solid fa-ban text-gray-400 text-sm"></i>
+                                <div class="font-semibold text-sm text-gray-900">Bank Promotion</div>
+                                <div class="text-[10px] text-gray-500 mt-0.5 mb-1.5">Select your credit card issuing bank</div>
+                                <div class="flex items-center gap-3">
+                                    <button type="button" onclick="selectCardBankPromotion(${originalIdx}, 'none', this)" class="bank-btn flex flex-col items-center gap-1" title="No bank promotion">
+                                        <div class="flex items-center justify-center w-9 h-9 rounded-xl border-2 transition-all border-gray-300 bg-gray-100">
+                                            <i class="fa-solid fa-ban text-gray-400 text-sm"></i>
+                                        </div>
+                                        <span class="text-[9px] text-gray-500">None</span>
                                     </button>
-                                    <button type="button" onclick="selectCardBankPromotion(${originalIdx}, 'hsbc', this)" class="bank-btn flex items-center justify-center w-8 h-8 rounded-xl border-2 transition-all border-gray-200 overflow-hidden" title="HSBC">
-                                        <img src="https://create.hsbc/content/dam/brandhub/brand/ld-history/hexagon_1192x671.jpg" class="w-8 h-8 object-contain" alt="HSBC">
+                                    <button type="button" onclick="selectCardBankPromotion(${originalIdx}, 'hsbc', this)" class="bank-btn flex flex-col items-center gap-1" title="HSBC">
+                                        <div class="flex items-center justify-center w-9 h-9 rounded-xl border-2 transition-all border-gray-200 overflow-hidden">
+                                            <img src="https://create.hsbc/content/dam/brandhub/brand/ld-history/hexagon_1192x671.jpg" class="w-9 h-9 object-contain" alt="HSBC">
+                                        </div>
+                                        <span class="text-[9px] text-gray-700 font-medium">HSBC</span>
                                     </button>
-                                    <button type="button" onclick="selectCardBankPromotion(${originalIdx}, 'boc', this)" class="bank-btn flex items-center justify-center w-8 h-8 rounded-xl border-2 transition-all border-gray-200 overflow-hidden" title="BOC">
-                                        <img src="https://companieslogo.com/img/orig/2388.HK_BIG-9ff8bfa3.png?t=1720244490" class="w-8 h-8 object-contain" alt="BOC">
+                                    <button type="button" onclick="selectCardBankPromotion(${originalIdx}, 'boc', this)" class="bank-btn flex flex-col items-center gap-1" title="BOC">
+                                        <div class="flex items-center justify-center w-9 h-9 rounded-xl border-2 transition-all border-gray-200 overflow-hidden">
+                                            <img src="https://companieslogo.com/img/orig/2388.HK_BIG-9ff8bfa3.png?t=1720244490" class="w-9 h-9 object-contain" alt="BOC">
+                                        </div>
+                                        <span class="text-[9px] text-gray-700 font-medium">BOC</span>
                                     </button>
                                 </div>
                             </div>
