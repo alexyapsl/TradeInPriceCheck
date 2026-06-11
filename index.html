@@ -399,7 +399,15 @@
             
             recommendedProducts.forEach((product, originalIdx) => {
                 // Check if this product should be shown based on recommendations
-                const shouldShow = !allowedRecs || allowedRecs.some(r => (r||'').trim().toLowerCase() === (product.name||'').trim().toLowerCase());
+                // Use tolerant matching (.includes) instead of strict equality
+                let shouldShow = true;
+                if (allowedRecs && allowedRecs.length > 0) {
+                    const productNameLower = (product.name || '').trim().toLowerCase();
+                    shouldShow = allowedRecs.some(r => {
+                        const rec = (r || '').trim().toLowerCase();
+                        return rec && (productNameLower.includes(rec) || rec.includes(productNameLower));
+                    });
+                }
                 if (!shouldShow) return;
 
                 // Is this product completely out of stock on all storages?
