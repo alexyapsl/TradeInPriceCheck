@@ -475,8 +475,8 @@
                             <span class="font-medium text-emerald-600">−$${tradeInValue.toLocaleString()}</span>
                         </div>
                         
-                        <!-- Bank promotion rebate line -->
-                        <div class="flex justify-between bank-rebate-row ${selectedBank === 'hsbc' || selectedBank === 'boc' ? '' : 'hidden'}" data-product-idx="${originalIdx}">
+                        <!-- Bank promotion rebate line (starts hidden; applyBankRebateToCard will show it per-card) -->
+                        <div class="flex justify-between bank-rebate-row hidden" data-product-idx="${originalIdx}">
                             <span class="text-emerald-600">Credit card rebate</span>
                             <span class="font-medium text-emerald-600 bank-rebate-amount"></span>
                         </div>
