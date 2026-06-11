@@ -116,7 +116,7 @@
         <div class="max-w-6xl mx-auto px-6">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center gap-x-3">
-                    <span class="font-semibold tracking-tighter text-2xl text-[#007AFF]">Samsung</span>
+                    <img src="SamsungLogo.png" alt="Samsung" class="h-8 w-auto object-contain">
                 </div>
                 <div>
                     <button onclick="window.location.reload()" 
@@ -398,16 +398,11 @@
             const allowedRecs = getAllowedRecommendations(currentDevice);
             
             recommendedProducts.forEach((product, originalIdx) => {
-                // Check if this product should be shown based on recommendations
-                // Use tolerant matching (.includes) instead of strict equality
-                let shouldShow = true;
-                if (allowedRecs && allowedRecs.length > 0) {
-                    const productNameLower = (product.name || '').trim().toLowerCase();
-                    shouldShow = allowedRecs.some(r => {
-                        const rec = (r || '').trim().toLowerCase();
-                        return rec && (productNameLower.includes(rec) || rec.includes(productNameLower));
-                    });
-                }
+                // Strict match (trim + case-insensitive exact equality)
+                // This matches the original spreadsheet recommendation intent exactly.
+                const shouldShow = !allowedRecs || allowedRecs.some(r => 
+                    (r || '').trim().toLowerCase() === (product.name || '').trim().toLowerCase()
+                );
                 if (!shouldShow) return;
 
                 // Is this product completely out of stock on all storages?
@@ -475,14 +470,14 @@
                         </div>
                         <div class="text-right">
                             <div class="text-xs text-gray-500">Original</div>
-                            <div class="font-semibold tabular-nums text-gray-900 recommended-price" data-base-price="${currentPrice}">${isFullyOutOfStock ? 'Out of Stock' : '$' + currentPrice.toLocaleString()}</div>
+                            
                         </div>
                     </div>
                     
                     <div class="pt-4 border-t border-gray-200 space-y-2 text-sm">
                         <div class="flex justify-between">
                             <span class="text-emerald-600">Trade-in credit</span>
-                            <span class="font-medium text-emerald-600">−$${tradeInValue.toLocaleString()}</span>
+                            <span class="font-medium text-emerald-600">−HK$${tradeInValue.toFixed(2)}</span>
                         </div>
                         
                         <!-- Bank promotion rebate line (starts hidden; applyBankRebateToCard will show it per-card) -->
@@ -572,9 +567,11 @@
             const existingFixed = card.querySelector('.fixed-discount-row');
             if (existingFixed) existingFixed.remove();
 
+            // Total savings element for this card
+const totalSavingsEl = card.querySelector('.total-savings');
             if (cardBank && cardBank !== 'none' && bankCalc.totalRebate > 0) {
                 rebateRow.classList.remove('hidden');
-                amountEl.textContent = '−$' + bankCalc.percentRebate.toLocaleString();
+                amountEl.textContent = '−HK$' + bankCalc.percentRebate.toFixed(2);
 
                 // Add Fixed Discount line if defined
                 if (bankCalc.fixedRebate > 0 && bankCalc.fixedName) {
@@ -589,12 +586,12 @@
 
                 if (labelEl) labelEl.textContent = 'You pay after trade-in and bank rebate';
                 const newYouPay = Math.max(0, basePrice - tradeInValue - bankCalc.totalRebate);
-                youPayEl.textContent = '$' + newYouPay.toLocaleString();
+                youPayEl.textContent = 'HK$' + newYouPay.toFixed(2);
             } else {
                 rebateRow.classList.add('hidden');
                 if (labelEl) labelEl.textContent = 'You pay after trade-in';
                 const normalYouPay = Math.max(0, basePrice - tradeInValue);
-                youPayEl.textContent = '$' + normalYouPay.toLocaleString();
+                youPayEl.textContent = 'HK$' + normalYouPay.toFixed(2);
             }
         }
         
@@ -610,9 +607,11 @@
             const youPay = Math.max(0, newPrice - tradeInValue);
             const savings = newPrice - youPay;
             
-            priceEl.textContent = '$' + newPrice.toLocaleString();
-            youPayEl.textContent = '$' + youPay.toLocaleString();
-            savingsEl.textContent = 'You save $' + savings.toLocaleString();
+            priceEl.textContent = 'HK$' + newPrice.toLocaleString();
+            youPayEl.textContent = 'HK$' + youPay.toLocaleString();
+            if (savingsEl) {
+                savingsEl.textContent = 'You save HK$' + savings.toLocaleString();
+            }
             
             // Update the base price attribute used by rebate calculation
             if (priceEl) {
