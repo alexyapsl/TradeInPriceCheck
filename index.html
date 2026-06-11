@@ -477,7 +477,7 @@
                     <div class="pt-4 border-t border-gray-200 space-y-2 text-sm">
                         <div class="flex justify-between">
                             <span class="text-emerald-600">Trade-in credit</span>
-                            <span class="font-medium text-emerald-600">−HK$${tradeInValue.toFixed(2)}</span>
+                            <span class="font-medium text-emerald-600">−HK$${tradeInValue.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}</span>
                         </div>
                         
                         <!-- Bank promotion rebate line (starts hidden; applyBankRebateToCard will show it per-card) -->
@@ -579,7 +579,7 @@ const totalSavingsEl = card.querySelector('.total-savings');
                 // Calculate and show Total Savings
                 if (totalSavingsEl) {
                     const totalSavings = basePrice - (basePrice - tradeInValue - bankCalc.totalRebate);
-                    totalSavingsEl.textContent = `Your total savings: HK$${totalSavings.toFixed(2)}`;
+                    totalSavingsEl.textContent = `Your total savings: HK$${totalSavings.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
                     totalSavingsEl.classList.remove('hidden');
                 }
 
@@ -596,13 +596,13 @@ const totalSavingsEl = card.querySelector('.total-savings');
 
                 if (labelEl) labelEl.textContent = 'You pay after trade-in and bank rebate';
                 const newYouPay = Math.max(0, basePrice - tradeInValue - bankCalc.totalRebate);
-                youPayEl.textContent = 'HK$' + newYouPay.toFixed(2);
+                youPayEl.textContent = 'HK$' + newYouPay.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
             } else {
                 rebateRow.classList.add('hidden');
                 if (totalSavingsEl) totalSavingsEl.classList.add('hidden');
                 if (labelEl) labelEl.textContent = 'You pay after trade-in';
                 const normalYouPay = Math.max(0, basePrice - tradeInValue);
-                youPayEl.textContent = 'HK$' + normalYouPay.toFixed(2);
+                youPayEl.textContent = 'HK$' + normalYouPay.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
             }
         }
         
