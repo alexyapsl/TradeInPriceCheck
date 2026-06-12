@@ -154,6 +154,12 @@
                         </div>
                     </div>
 
+                    <!-- No Trade-In Checkbox -->
+                    <div class="mb-4 flex items-center gap-x-2">
+                        <input type="checkbox" id="no-tradein" onchange="toggleNoTradeIn()" class="w-4 h-4 text-[#007AFF] border-gray-300 rounded focus:ring-[#007AFF]">
+                        <label for="no-tradein" class="text-sm text-gray-700 cursor-pointer">I have no device to trade-in</label>
+                    </div>
+
                     <div class="space-y-6">
                         <!-- Brand -->
                         <div>
@@ -352,6 +358,41 @@
             storageSelect.disabled = false;
         }
 
+        function toggleNoTradeIn() {
+            const checked = document.getElementById('no-tradein').checked;
+            const brand = document.getElementById('brand');
+            const model = document.getElementById('model');
+            const storage = document.getElementById('storage');
+            const tradeInResult = document.getElementById('trade-in-result');
+
+            if (checked) {
+                // Grey out fields
+                brand.disabled = true;
+                model.disabled = true;
+                storage.disabled = true;
+                brand.classList.add('!bg-gray-100', 'cursor-not-allowed');
+                model.classList.add('!bg-gray-100', 'cursor-not-allowed');
+                storage.classList.add('!bg-gray-100', 'cursor-not-allowed');
+                
+                // Hide trade-in result
+                tradeInResult.classList.add('hidden');
+                
+                // Render all recommended products with tradeInValue = 0
+                renderRecommendedProducts(0);
+            } else {
+                brand.disabled = false;
+                model.disabled = false;
+                storage.disabled = false;
+                brand.classList.remove('!bg-gray-100', 'cursor-not-allowed');
+                model.classList.remove('!bg-gray-100', 'cursor-not-allowed');
+                storage.classList.remove('!bg-gray-100', 'cursor-not-allowed');
+                
+                // Re-enable default state (empty until user picks a device)
+                const container = document.getElementById('recommended-products');
+                container.innerHTML = '';
+            }
+        }
+
         function updateTradeInPrice() {
             const brand = document.getElementById('brand').value;
             const model = document.getElementById('model').value;
@@ -475,10 +516,11 @@
                     </div>
                     
                     <div class="pt-4 border-t border-gray-200 space-y-2 text-sm">
+                        ${tradeInValue > 0 ? `
                         <div class="flex justify-between">
                             <span class="text-emerald-600">Trade-in credit</span>
                             <span class="font-medium text-emerald-600">−HK$${tradeInValue.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}</span>
-                        </div>
+                        </div>` : ''}
                         
                         <!-- Bank promotion rebate line (starts hidden; applyBankRebateToCard will show it per-card) -->
                         <div class="flex justify-between bank-rebate-row hidden" data-product-idx="${originalIdx}">
