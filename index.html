@@ -487,9 +487,9 @@
                         </div>
                         
                         <div class="pt-3 border-t border-gray-200 flex justify-between items-baseline">
-                            <div>
-                                <div class="font-medium text-gray-900 you-pay-label text-sm" data-product-idx="${originalIdx}">${isFullyOutOfStock ? 'Status' : 'You pay after trade-in and bank rebate'}</div>
-                                <div class="text-3xl font-semibold tabular-nums text-gray-900 recommended-you-pay">${isFullyOutOfStock ? 'Out of Stock' : 'HK$' + youPay.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}</div>
+                            <div class="font-medium text-gray-900 you-pay-label text-sm" data-product-idx="${originalIdx}">${isFullyOutOfStock ? 'Status' : 'You pay after trade-in and bank rebate'}</div>
+                            <div class="text-right">
+                                <div class="text-3xl font-semibold tabular-nums text-gray-900 recommended-you-pay">${isFullyOutOfStock ? 'Out of Stock' : 'HK$' + youPay.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}</div>
                                 <div class="text-[10px] text-emerald-600 mt-0.5 total-savings">Your total savings: HK$0</div>
                             </div>
                         </div>
